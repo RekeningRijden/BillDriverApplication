@@ -6,7 +6,7 @@
         <property name="portNumber" value="3306"/>
         <property name="databaseName" value="billDriverApplication"/>
         <property name="User" value="root"/>
-        <property name="Password" value="marijn"/>
+        <property name="Password" value="root"/>
         <property name="URL" value="jdbc:mysql://localhost:3306/billDriverApplication?zeroDateTimeBehavior=convertToNull"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
