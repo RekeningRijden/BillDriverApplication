@@ -23,14 +23,6 @@ public class UserLoginBean implements Serializable {
     private String username;
     private String password;
 
-    private String resetUsername;
-    private String resetEmail;
-
-    private String demoName;
-    private String demoPhone;
-    private String demoMail;
-    private String demoCompany;
-
     private String to = "/dashboard.xhtml";
 
     @PostConstruct
@@ -58,11 +50,6 @@ public class UserLoginBean implements Serializable {
         }
     }
 
-    public void emptyTemps() {
-        this.resetUsername = "";
-        this.resetEmail = "";
-    }
-
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public String getUsername() {
         return username;
@@ -72,60 +59,12 @@ public class UserLoginBean implements Serializable {
         this.username = username;
     }
 
-    public String getDemoName() {
-        return demoName;
-    }
-
-    public void setDemoName(String demoName) {
-        this.demoName = demoName;
-    }
-
-    public String getDemoPhone() {
-        return demoPhone;
-    }
-
-    public void setDemoPhone(String demoPhone) {
-        this.demoPhone = demoPhone;
-    }
-
-    public String getDemoMail() {
-        return demoMail;
-    }
-
-    public void setDemoMail(String demoMail) {
-        this.demoMail = demoMail;
-    }
-
-    public String getDemoCompany() {
-        return demoCompany;
-    }
-
-    public void setDemoCompany(String demoCompany) {
-        this.demoCompany = demoCompany;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getResetUsername() {
-        return resetUsername;
-    }
-
-    public void setResetUsername(String _resetUsername) {
-        this.resetUsername = _resetUsername;
-    }
-
-    public String getResetEmail() {
-        return resetEmail;
-    }
-
-    public void setResetEmail(String _resetEmail) {
-        this.resetEmail = _resetEmail;
     }
 
     public String getTo() {
