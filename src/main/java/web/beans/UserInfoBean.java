@@ -2,10 +2,9 @@ package web.beans;
 
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import main.domain.User;
-import main.service.UserGroupService;
+import web.core.helpers.RedirectHelper;
 
 /**
  *
@@ -15,14 +14,11 @@ import main.service.UserGroupService;
 @SessionScoped
 public class UserInfoBean implements Serializable {
 
-    @Inject
-    private UserGroupService userGroupService;
-
     private User loggedInUser;
 
-    public String logout() {
+    public void logout() {
         loggedInUser = null;
-        return "/login.xhtml?faces-redirect=true";
+        RedirectHelper.redirect("/index.xhtml?faces-redirect=true");
     }
 
     public synchronized User getLoggedInUser() {

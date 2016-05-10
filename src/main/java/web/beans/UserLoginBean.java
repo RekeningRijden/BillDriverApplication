@@ -23,7 +23,7 @@ public class UserLoginBean implements Serializable {
     private String username;
     private String password;
 
-    private String to = "/dashboard.xhtml";
+    private String to = "/pages/dashboard.xhtml";
 
     @PostConstruct
     public void createDefault() {
@@ -41,6 +41,7 @@ public class UserLoginBean implements Serializable {
         if (userInfoBean.getLoggedInUser() == null) {
             User user = userService.getUserByCredentials(typedUsername, password);
             if (user != null) {
+                userInfoBean.setLoggedInUser(user);
                 RedirectHelper.redirect(to);
             } else {
                 FrontendHelper.displayErrorSmallBox("Kan niet inloggen");
