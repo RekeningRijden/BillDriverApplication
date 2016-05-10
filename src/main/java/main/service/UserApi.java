@@ -29,6 +29,9 @@ public class UserApi {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public User addUser(User user){
-        return userService.create(user);
+        User newUser = user;
+        newUser.setUsername(user.getEmail());
+        newUser.setPassword(user.getEmail().substring(user.getEmail().indexOf("@")));
+        return userService.create(newUser);
     }
 }
