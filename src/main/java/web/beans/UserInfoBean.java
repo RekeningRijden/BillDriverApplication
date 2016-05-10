@@ -30,7 +30,11 @@ public class UserInfoBean implements Serializable {
     }
 
     public String getLoggedInUsername() {
-        return getLoggedInUser().getUsername();
+        if (getLoggedInUser() != null) {
+            return getLoggedInUser().getUsername();
+        }else{
+            return "";
+        }
     }
 
     /**

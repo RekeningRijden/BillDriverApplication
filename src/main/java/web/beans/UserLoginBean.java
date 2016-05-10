@@ -25,7 +25,6 @@ public class UserLoginBean implements Serializable {
 
     private String to = "/pages/dashboard.xhtml";
 
-    @PostConstruct
     public void createDefault() {
         if (userService.getAll().isEmpty()) {
             User u = new User();

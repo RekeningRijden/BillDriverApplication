@@ -23,7 +23,7 @@ import web.beans.UserInfoBean;
  * if needed.
  * </P>
  */
-@WebFilter(urlPatterns = {"/pages/*"})
+@WebFilter(urlPatterns = {"/pages/*", "/BillDriverApplication/pages/*"})
 public class LoginFilter implements Filter {
 
     @Inject
@@ -40,7 +40,7 @@ public class LoginFilter implements Filter {
             HttpServletRequest req = (HttpServletRequest) request;
             HttpServletResponse res = (HttpServletResponse) response;
 
-            String requestURI = req.getRequestURI();//.substring(4);
+            String requestURI = req.getRequestURI();//.substring(13);
             String contextPath = req.getContextPath();
 
             StringBuilder sb = new StringBuilder();
