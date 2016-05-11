@@ -13,13 +13,13 @@
                 <nav>
                     <ul>
                         <li class="#{currentMenuItem eq 'index' ? 'active' : ''}">
-                            <a href="#{root}/index.xhtml"><i class="fa fa-lg fa-fw fa-home"/><span class="menu-item-parent">Index</span></a>
+                            <a href="#{root}/index.xhtml"><i class="fa fa-lg fa-fw fa-home"/><span class="menu-item-parent">#{txt.INDEX}</span></a>
                         </li> 
                         <li>
-                            <a href="#"><i class="fa fa-lg fa-fw fa-book"/><span class="menu-item-parent">Invoice</span></a>
+                            <a href="#"><i class="fa fa-lg fa-fw fa-book"/><span class="menu-item-parent">#{txt.INVOICE}</span></a>
                             <ul>
                                 <li class="#{currentMenuItem eq 'invoiceOverview' ? 'active' : ''}">
-                                    <a href="#{root}/pages/invoice/invoiceOverview.xhtml">Overview</a>
+                                    <a href="#{root}/pages/invoice/invoiceOverview.xhtml">#{txt.OVERVIEW}</a>
                                 </li>
                             </ul>
                         </li>

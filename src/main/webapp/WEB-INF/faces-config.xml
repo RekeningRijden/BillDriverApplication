@@ -6,4 +6,15 @@
     <!--<application>
         <view-handler>util.CustomViewHandler</view-handler>
     </application>-->
+    
+    <application>
+        <locale-config>
+            <default-locale>nl_NL_EURO</default-locale>
+            <supported-locale>en_GB</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>web.core.localization.Localization</base-name>
+            <var>txt</var> 
+        </resource-bundle>
+    </application>
 </faces-config>

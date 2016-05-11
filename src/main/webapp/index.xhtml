@@ -61,20 +61,20 @@
                                 <fieldset>
                                     <legend>Log In</legend>
                                     <div class="form-group">
-                                        <label class="control-label">Gebruikersnaam</label>
+                                        <label class="control-label">#{txt.USERNAME}</label>
                                         <h:inputText class="form-control"
                                                      value="#{userLoginBean.username}"/>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label">Wachtwoord</label>
+                                        <label class="control-label">#{txt.PASSWORD}</label>
                                         <h:inputSecret class="form-control"
                                                        value="#{userLoginBean.password}"/>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-xs-8">
-                                            <small>Alle rechten voorbehouden!</small>
+                                            <small>#{txt.RIGHT}</small>
                                         </div>
                                         <div class="col-xs-4">
                                             <h:commandButton id="login-btn" 
