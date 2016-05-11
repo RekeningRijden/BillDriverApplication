@@ -6,18 +6,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 /**
  * Created by Eric on 02-04-16.
  */
 public class Invoice implements Serializable, IEntity {
-    
+
     private Long id;
+    @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
     private Date period;
     private BigDecimal totalAmount;
 
     public Invoice() {
-        this.paymentStatus = PaymentStatus.OPEN;
         this.totalAmount = BigDecimal.ZERO;
     }
 
@@ -56,9 +59,7 @@ public class Invoice implements Serializable, IEntity {
     }
 
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="HashCode/Equals">
-
     @Override
     public int hashCode() {
         int hash = 7;

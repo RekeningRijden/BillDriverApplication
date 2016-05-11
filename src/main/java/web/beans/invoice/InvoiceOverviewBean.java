@@ -13,8 +13,10 @@ import javax.inject.Named;
 import main.core.communication.Communicator;
 
 import main.domain.Invoice;
+import org.codehaus.jettison.json.JSONException;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
+import web.core.helpers.FrontendHelper;
 import web.core.pagination.ListPaginator;
 
 /**
@@ -45,8 +47,15 @@ public class InvoiceOverviewBean implements Serializable {
      * finished.
      */
     public void save() {
-        //invoiceService.update(invoice);
-        //FrontendHelper.displaySuccessSmallBox("Saved");
+        try {
+            Communicator.updateInvoice(userInfoBean.getLoggedInUser().getId(), invoice);
+            FrontendHelper.displaySuccessSmallBox("Saved");
+            invoicePaginator = new ListPaginator<>(Communicator.getAllInvoices(userInfoBean.getLoggedInUser().getId()));
+            invoicePaginator.setItemsPerPage(15);
+        } catch (IOException | JSONException ex) {
+            Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
+            FrontendHelper.displayWarningSmallBox("Something went wrong");
+        }
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">

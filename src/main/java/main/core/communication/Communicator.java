@@ -13,6 +13,12 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.util.List;
 import main.domain.Invoice;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 /**
  * @author Sam
@@ -42,9 +48,29 @@ public class Communicator {
         HttpResponse response = httpClient.execute(get);
 
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         return gson.fromJson(responseString, new TypeToken<List<Invoice>>() {
         }.getType());
+    }
+    
+    public static Long updateInvoice(Long userId, Invoice invoice) throws IOException, JSONException{
+        Gson gson = new Gson();
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpPut post = new HttpPut(BASE_URL_PRODUCTION + userId + "/invoices/" + invoice.getId());
+
+        String jsonBody = gson.toJson(invoice);
+        StringEntity postingString = new StringEntity(jsonBody, "UTF-8");
+        System.out.println(jsonBody);
+        post.setEntity(postingString);
+        post.setHeader(HTTP.CONTENT_TYPE, "application/json");
+
+        HttpResponse response = httpClient.execute(post);
+
+        //Response
+        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        JSONObject json = new JSONObject(responseString);
+        System.out.println("JSON Response: " + json);
+        return json.getLong("id");
     }
 }
 
