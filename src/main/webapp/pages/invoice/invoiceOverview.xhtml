@@ -91,17 +91,21 @@
                                                                                 </h:outputText>
                                                                             </td>
                                                                             <td>
-                                                                                <ui:fragment
-                                                                                    rendered="#{item.paymentStatus.toString() eq 'Open'}">
-                                                                                    <div class="element-center">
+                                                                                <div class="element-center">
+                                                                                    <ui:fragment
+                                                                                        rendered="#{item.paymentStatus.toString() eq 'Open'}">
                                                                                         <h:commandLink class="btn btn-primary btn-xs"
                                                                                                        action="#{invoiceOverviewBean.setInvoice(item)}"
                                                                                                        onclick="$('#editInvoiceModal').modal('show')">
                                                                                             <i class="fa fa-pencil"/>
                                                                                             <f:ajax execute="@this" render=":modal-form-1"/>
                                                                                         </h:commandLink>
-                                                                                    </div>
-                                                                                </ui:fragment>
+                                                                                    </ui:fragment>
+                                                                                    <h:outputLink value="maps.xhtml" class="btn btn-success btn-xs">
+                                                                                        <f:param name="invoiceNr" value="#{item.id}"/>
+                                                                                        <i class="fa fa-map" />
+                                                                                    </h:outputLink>
+                                                                                </div>
                                                                             </td>
                                                                         </tr>
                                                                     </ui:repeat>
