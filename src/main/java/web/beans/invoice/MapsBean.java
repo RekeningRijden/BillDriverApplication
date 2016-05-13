@@ -43,7 +43,7 @@ public class MapsBean implements Serializable {
                 positions = new ArrayList<>();
                 Long cartrackerId = Communicator.getCartrackerId(userInfoBean.getLoggedInUser().getId(), invoiceId);
                 System.out.println("cartrackerId: " + cartrackerId);
-                positions.addAll(Communicator.getPositions(1L));
+                positions.addAll(Communicator.getPositions(cartrackerId));
             } catch (IOException | JSONException ex) {
                 Logger.getLogger(MapsBean.class.getName()).log(Level.SEVERE, null, ex);
             }

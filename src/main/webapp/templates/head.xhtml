@@ -45,9 +45,16 @@
                 var myTrip = [];
                 var positions = #{mapsBean.positionsAsJson};
                 for (i = 0; i &#60; positions.length; i++) {
-                    myTrip.push(new google.maps.LatLng(positions[i].latitude, positions[i].longitude));
+                    var latLng = new google.maps.LatLng(positions[i].latitude, positions[i].longitude);
+                    myTrip.push(latLng);
+                    
+                    var marker = new google.maps.Marker({
+                        position: latLng,
+                    });
+
+                    marker.setMap(map);
                 }
-                
+
                 var flightPath = new google.maps.Polygon({
                     path: myTrip,
                     strokeColor: "#0000FF",
@@ -57,6 +64,12 @@
                     fillOpacity: 0
                 });
                 flightPath.setMap(map);
+
+                var marker = new google.maps.Marker({
+                    position: myTrip,
+                });
+
+                marker.setMap(map);
             }
             google.maps.event.addDomListener(window, 'load', initialize);
         </script>
