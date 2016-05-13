@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import main.domain.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -13,9 +14,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import main.domain.Invoice;
-import main.domain.Position;
-import main.domain.TrackingPeriod;
+
 import org.apache.http.protocol.HTTP;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPut;
@@ -76,6 +75,55 @@ public class Communicator {
         System.out.println("response: " + responseString);
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         return gson.fromJson(responseString, Invoice.class);
+    }
+
+    /**
+     * Get a driver
+     * @param driverId
+     * @return
+     * @throws IOException
+     */
+    public static Driver getDriver(Long driverId) throws IOException {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId );
+        HttpResponse response = httpClient.execute(get);
+
+        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        System.out.println("response: " + responseString);
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        return gson.fromJson(responseString, Driver.class);
+    }
+
+    /**
+     * Get a list of cars
+     * @param driverId
+     * @return
+     * @throws IOException
+     */
+    public static List<Car> getCars(Long driverId) throws IOException {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId + "/ownerships" );
+        HttpResponse response = httpClient.execute(get);
+
+        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        System.out.println("response: " + responseString);
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        List<Ownership> owners = gson.fromJson(responseString, new TypeToken<List<Ownership>>() {
+        }.getType());
+
+        List<Car> cars = new ArrayList<>();
+        for(Ownership o : owners){
+            boolean carExists = false;
+            for (Car c : cars){
+                if (o.getCar() == c){
+                    carExists = true;
+                }
+            }
+            if (!carExists){
+                cars.add(o.getCar());
+            }
+        }
+        return cars;
     }
 
     /**

@@ -31,6 +31,9 @@ public class Driver implements Serializable, IEntity {
     @Transient
     private String lastName;
 
+    @Transient
+    private Address address;
+
     public Driver() {
     }
 
@@ -66,6 +69,14 @@ public class Driver implements Serializable, IEntity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
 //</editor-fold>

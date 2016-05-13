@@ -1,10 +1,13 @@
 package web.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import main.core.communication.Communicator;
 import main.core.helper.PasswordGenerator;
 import main.domain.User;
 import main.service.UserService;
@@ -41,12 +44,18 @@ public class UserLoginBean implements Serializable {
             User user = userService.getUserByCredentials(typedUsername, password);
             if (user != null) {
                 userInfoBean.setLoggedInUser(user);
+                try {
+                    userInfoBean.getLoggedInUser().setDriver(Communicator.getDriver(user.getId()));
+                    userInfoBean.getCars().addAll(Communicator.getCars(user.getId()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 RedirectHelper.redirect(to);
             } else {
                 FrontendHelper.displayErrorSmallBox("Kan niet inloggen");
             }
         } else {
-            FrontendHelper.displayErrorSmallBox("Kan niet inloggen");
+            RedirectHelper.redirect(to);
         }
     }
 

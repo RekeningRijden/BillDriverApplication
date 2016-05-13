@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jsf="http://java.sun.com/jsf">
+
+
+<ui:composition template="../../templates/main.xhtml">
+    <ui:param name="root" value="#{request.contextPath}"/>
+
+    <ui:define name="content">
+        <div id="content">
+            <h:form id="form">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                        <h1 class="page-title txt-color-blueDark visible-xs visible-sm visible-md visible-lg">
+                            <i class="fa fa-car fa-fw "/>
+                            #{txt.PROFILE}
+                        </h1>
+                    </div>
+                </div>
+
+                <section id="widget-grid" class="">
+                    <div class="row">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
+                                 data-widget-fullscreenbutton="false" data-widget-togglebutton="false"
+                                 data-widget-editbutton="false" data-widget-colorbutton="false"
+                                 data-widget-deletebutton="false" data-widget-sortable="false">
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-table"/> </span>
+                                    <h2>#{txt.PERSONALDETAILS}</h2>
+                                </header>
+                                <div>
+                                    <div class="jarviswidget-editbox">
+                                    </div>
+                                    <div class="widget-body">
+                                        <fieldset>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <legend>#{txt.NAME}</legend>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label">#{txt.NAME}</label>
+                                                                <h:inputText class="form-control"
+                                                                             value="#{userInfoBean.loggedInUser.driver.firstName} #{userInfoBean.loggedInUser.driver.lastName}"
+                                                                             disabled="true"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label">E-mail</label>
+                                                                <h:inputText class="form-control"
+                                                                             value="#{userInfoBean.loggedInUser.email}"
+                                                                             disabled="true"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label">#{txt.GROUP}</label>
+                                                                <h:inputText class="form-control"
+                                                                             value="#{userInfoBean.loggedInUser.userGroup.name}"
+                                                                             disabled="true"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label">#{txt.LANGUAGE}</label>
+                                                                <h:inputText class="form-control"
+                                                                             value="#{userInfoBean.loggedInUser.language}"
+                                                                             disabled="true"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <legend>#{txt.ADDRESS}</legend>
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                            <div class="form-group">
+                                                                <label class="control-label">#{txt.STREET}</label>
+                                                                <h:inputText class="form-control"
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.street}" disabled="true"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label class="control-label">#{txt.STREETNUMBER}</label>
+                                                                <h:inputText class="form-control"
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.streetNr}" disabled="true"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label">#{txt.ZIPCODE}</label>
+                                                                <h:inputText class="form-control"
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.zipCode}" disabled="true"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label">#{txt.CITY}</label>
+                                                                <h:inputText class="form-control"
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.city}" disabled="true"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label">#{txt.COUNTRY}</label>
+                                                                <h:inputText class="form-control"
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.country}" disabled="true"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="row">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
+                                 data-widget-fullscreenbutton="false" data-widget-togglebutton="false"
+                                 data-widget-editbutton="false" data-widget-colorbutton="false"
+                                 data-widget-deletebutton="false" data-widget-sortable="false">
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-table"/> </span>
+                                    <h2>Ownerships</h2>
+
+                                </header>
+                                <div>
+                                    <div class="jarviswidget-editbox">
+                                    </div>
+                                    <div class="widget-body">
+                                        <fieldset>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table class="table table-striped table-bordered table-hover table-condensed">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>
+                                                                #{txt.LICENSEPLATE}
+                                                            </th>
+                                                            <th>
+                                                                #{txt.RATE}
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <ui:repeat value="#{userInfoBean.cars}" var="car">
+                                                                <tr>
+                                                                    <td>
+                                                                        <h:outputText value="#{car.licencePlate}" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <h:outputText value="#{car.rate.name}/#{car.rate.value}" />
+                                                                    </td>
+                                                                </tr>
+                                                            </ui:repeat>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>
