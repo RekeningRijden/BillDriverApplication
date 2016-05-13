@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import main.domain.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
@@ -153,6 +154,25 @@ public class Communicator {
         JSONObject json = new JSONObject(responseString);
         System.out.println("JSON Response: " + json);
         return json.getLong("id");
+    }
+
+    public static Driver updateUser(Driver user) throws IOException, JSONException {
+        Gson gson = new Gson();
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(BASE_URL_PRODUCTION + user.getId());
+
+        String jsonBody = gson.toJson(user);
+        StringEntity postingString = new StringEntity(jsonBody, "UTF-8");
+        System.out.println(jsonBody);
+        post.setEntity(postingString);
+        post.setHeader(HTTP.CONTENT_TYPE, "application/json");
+
+        HttpResponse response = httpClient.execute(post);
+
+        //Response
+        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        return gson.fromJson(responseString, Driver.class);
     }
 
     /**

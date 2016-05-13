@@ -1,13 +1,20 @@
 package web.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import main.core.communication.Communicator;
+import main.core.helper.PasswordGenerator;
 import main.domain.Car;
 import main.domain.User;
+import main.service.UserService;
+import org.codehaus.jettison.json.JSONException;
+import web.core.helpers.FrontendHelper;
 import web.core.helpers.RedirectHelper;
 
 /**
@@ -18,7 +25,14 @@ import web.core.helpers.RedirectHelper;
 @SessionScoped
 public class UserInfoBean implements Serializable {
 
+    @Inject
+    private UserService userService;
+
     private User loggedInUser;
+
+    private String oldPassword;
+    private String newPassword;
+    private String repeatPassword;
 
     private List<Car> cars = new ArrayList<>();
 
@@ -26,6 +40,41 @@ public class UserInfoBean implements Serializable {
         loggedInUser = null;
         cars.clear();
         RedirectHelper.redirect("/index.xhtml?faces-redirect=true");
+    }
+
+    /**
+     * @param groupName name of group to be in.
+     * @return true if loggedInUser is in given group.
+     */
+    public boolean isLoggedInUserInGroup(String groupName) {
+        return loggedInUser.getUserGroup().getName().equals(groupName);
+    }
+
+    public void save() {
+        try {
+            loggedInUser.setDriver(Communicator.updateUser(loggedInUser.getDriver()));
+            FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+            FrontendHelper.displayErrorSmallBox("Opslaan mislukt!");
+        }
+    }
+
+    public void changePassword() {
+        if(loggedInUser.getPassword().equals(PasswordGenerator.encryptPassword(loggedInUser.getUsername(),this.oldPassword))){
+            if(this.newPassword.equals(this.repeatPassword)) {
+                loggedInUser.setPassword(PasswordGenerator.encryptPassword(loggedInUser.getUsername(),this.newPassword));
+                userService.update(loggedInUser);
+                FrontendHelper.hideModal("newPasswordModal");
+                FrontendHelper.displaySuccessSmallBox("Wachtwoord is aangepast!");
+            }
+            else {
+                FrontendHelper.displayErrorSmallBox("Wachtwoord komt niet overeen!");
+            }
+        }
+        else{
+            FrontendHelper.displayErrorSmallBox("Oud wachtwoord onjuist!");
+        }
     }
 
     public synchronized User getLoggedInUser() {
@@ -52,12 +101,27 @@ public class UserInfoBean implements Serializable {
         this.cars = cars;
     }
 
-    /**
-     * @param groupName name of group to be in.
-     * @return true if loggedInUser is in given group.
-     */
-    public boolean isLoggedInUserInGroup(String groupName) {
-        return loggedInUser.getUserGroup().getName().equals(groupName);
+    public String getOldPassword() {
+        return oldPassword;
     }
 
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
+    }
 }

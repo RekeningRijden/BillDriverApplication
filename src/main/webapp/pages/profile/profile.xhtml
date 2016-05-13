@@ -32,6 +32,13 @@
                                 <header>
                                     <span class="widget-icon"> <i class="fa fa-table"/> </span>
                                     <h2>#{txt.PERSONALDETAILS}</h2>
+                                    <div class="widget-toolbar" role="menu">
+                                        <h:commandLink class="btn btn-primary" action="#{userInfoBean.save()}">
+                                            <i class="fa fa-check"/>
+                                            <f:ajax render="@form" execute="@form"/>
+                                            Save
+                                        </h:commandLink>
+                                    </div>
                                 </header>
                                 <div>
                                     <div class="jarviswidget-editbox">
@@ -77,6 +84,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h:commandLink class="btn btn-primary" onclick="$('#newPasswordModal').modal('show')">
+                                                                Change Password
+                                                                <f:ajax execute="@this" render="@none"/>
+                                                            </h:commandLink>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <legend>#{txt.ADDRESS}</legend>
@@ -85,14 +100,14 @@
                                                             <div class="form-group">
                                                                 <label class="control-label">#{txt.STREET}</label>
                                                                 <h:inputText class="form-control"
-                                                                             value="#{userInfoBean.loggedInUser.driver.address.street}" disabled="true"/>
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.street}"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label class="control-label">#{txt.STREETNUMBER}</label>
                                                                 <h:inputText class="form-control"
-                                                                             value="#{userInfoBean.loggedInUser.driver.address.streetNr}" disabled="true"/>
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.streetNr}"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -101,14 +116,14 @@
                                                             <div class="form-group">
                                                                 <label class="control-label">#{txt.ZIPCODE}</label>
                                                                 <h:inputText class="form-control"
-                                                                             value="#{userInfoBean.loggedInUser.driver.address.zipCode}" disabled="true"/>
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.zipCode}"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label">#{txt.CITY}</label>
                                                                 <h:inputText class="form-control"
-                                                                             value="#{userInfoBean.loggedInUser.driver.address.city}" disabled="true"/>
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.city}"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -117,7 +132,7 @@
                                                             <div class="form-group">
                                                                 <label class="control-label">#{txt.COUNTRY}</label>
                                                                 <h:inputText class="form-control"
-                                                                             value="#{userInfoBean.loggedInUser.driver.address.country}" disabled="true"/>
+                                                                             value="#{userInfoBean.loggedInUser.driver.address.country}"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -129,7 +144,6 @@
                             </div>
                         </article>
                     </div>
-
                     <div class="row">
                         <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
@@ -183,6 +197,63 @@
                 </section>
             </h:form>
         </div>
+
+        <div class="modal fade" id="newPasswordModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a class="close" onclick="$('#newPasswordModal').modal('hide')">
+                            x
+                        </a>
+                        <h4>New driver</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h:form id="modal-form-1">
+                            <h:messages id="msgs" class="text-danger"/>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label">#{txt.OLDPASSWORD}</label>
+                                            <h:inputSecret class="form-control"
+                                                           value="#{userInfoBean.oldPassword}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label">#{txt.NEWPASSWORD}</label>
+                                            <h:inputSecret class="form-control"
+                                                           value="#{userInfoBean.newPassword}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="control-label">#{txt.REPEATPASSWORD}</label>
+                                            <h:inputSecret class="form-control"
+                                                           value="#{userInfoBean.repeatPassword}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h:commandLink type="submit" class="btn btn-primary" action="#{userInfoBean.changePassword()}">
+                                    <i class="fa fa-check"/>
+                                    Opslaan
+                                    <f:ajax execute="@form" render=":form msgs"/>
+                                </h:commandLink>
+                                <h:commandLink class="btn btn-default" onclick="$('#newPasswordModal').modal('hide')">
+                                    Cancel
+                                    <f:ajax execute="@this" render="@none"/>
+                                </h:commandLink>
+                            </fieldset>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </ui:define>
 </ui:composition>
 </html>
