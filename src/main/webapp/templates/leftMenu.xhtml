@@ -23,6 +23,14 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="#{root}/pages/profile/profile.xhtml"><i class="fa fa-lg fa-fw fa-user"/><span class="menu-item-parent">#{txt.PROFILE}</span></a>
+                        </li>
+                        <ui:fragment rendered="#{userInfoBean.loggedInUser.driver.subscribedToTrafficInfo}">
+                            <li>
+                                <a href="#{root}/pages/profile/trafficJam.xhtml"><i class="fa fa-lg fa-fw fa-car"/><span class="menu-item-parent">#{txt.TRAFFIC}</span></a>
+                            </li>
+                        </ui:fragment>
                     </ul>
                 </nav>
                 <span class="minifyme" data-action="minifyMenu"> 

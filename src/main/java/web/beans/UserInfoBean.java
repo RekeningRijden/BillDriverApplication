@@ -52,7 +52,10 @@ public class UserInfoBean implements Serializable {
 
     public void save() {
         try {
+            boolean subscribed = loggedInUser.getDriver().getSubscribedToTrafficInfo();
             loggedInUser.setDriver(Communicator.updateUser(loggedInUser.getDriver()));
+            loggedInUser.getDriver().setSubscribedToTrafficInfo(subscribed);
+            loggedInUser = userService.update(loggedInUser);
             FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
         } catch (IOException | JSONException e) {
             e.printStackTrace();

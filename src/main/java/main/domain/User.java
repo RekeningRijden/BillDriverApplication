@@ -31,7 +31,7 @@ public class User implements Serializable, IEntity {
     private Language language;
     @ManyToOne
     private UserGroup userGroup;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Driver driver;
 
     public User() {
