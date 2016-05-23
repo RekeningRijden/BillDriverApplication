@@ -44,8 +44,10 @@ public class UserLoginBean implements Serializable {
             User user = userService.getUserByCredentials(typedUsername, password);
             if (user != null) {
                 userInfoBean.setLoggedInUser(user);
+                boolean subscribed = userInfoBean.getLoggedInUser().getDriver().getSubscribedToTrafficInfo();
                 try {
                     userInfoBean.getLoggedInUser().setDriver(Communicator.getDriver(user.getId()));
+                    userInfoBean.getLoggedInUser().getDriver().setSubscribedToTrafficInfo(subscribed);
                     userInfoBean.getCars().addAll(Communicator.getCars(user.getId()));
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -56,6 +56,8 @@ public class UserInfoBean implements Serializable {
             loggedInUser.setDriver(Communicator.updateUser(loggedInUser.getDriver()));
             loggedInUser.getDriver().setSubscribedToTrafficInfo(subscribed);
             loggedInUser = userService.update(loggedInUser);
+            loggedInUser.setDriver(Communicator.getDriver(loggedInUser.getId()));
+            loggedInUser.getDriver().setSubscribedToTrafficInfo(subscribed);
             FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
         } catch (IOException | JSONException e) {
             e.printStackTrace();

@@ -35,7 +35,7 @@
                                         <div class="widget-toolbar" role="menu">
                                             <h:commandLink class="btn btn-primary" action="#{userInfoBean.save()}">
                                                 <i class="fa fa-check"/>
-                                                <f:ajax render="@form" execute="@form"/>
+                                                <f:ajax render="@form :leftMenuForm" execute="@form"/>
                                                 Save
                                             </h:commandLink>
                                         </div>
@@ -88,9 +88,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="checkbox">
                                                                     <label>
-                                                                        <h:selectBooleanCheckbox class="checkbox style-4" value="#{userInfoBean.loggedInUser.driver.subscribedToTrafficInfo}">
-                                                                            <f:ajax event="change" execute="@this" render="@this"/>
-                                                                        </h:selectBooleanCheckbox>
+                                                                        <h:selectBooleanCheckbox class="checkbox style-4" value="#{userInfoBean.loggedInUser.driver.subscribedToTrafficInfo}"/>
                                                                         <span>#{txt.TRAFFIC} info</span>
                                                                     </label>
                                                                 </div>
