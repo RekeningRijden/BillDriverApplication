@@ -26,7 +26,7 @@ import web.core.helpers.RedirectHelper;
 @SessionScoped
 public class UserInfoBean implements Serializable {
 
-    private final Logger LOGGER = Logger.getLogger(this.getClass().getName());
+    private final transient Logger LOGGER = Logger.getLogger(this.getClass().getName());
     
     @Inject
     private UserService userService;

@@ -43,7 +43,7 @@ public final class FrontendHelper {
      * @param title of the smallbox
      */
     public static void displayPrimarySmallBox(String title) {
-        displaySmallBox(title, "Zojuist", "fa fa-clock", "fa fa-check", "#6696E2");
+        displaySmallBoxWithColor(title, "#6696E2");
     }
 
     /**
@@ -53,7 +53,7 @@ public final class FrontendHelper {
      * @param title of the smallbox
      */
     public static void displaySuccessSmallBox(String title) {
-        displaySmallBox(title, "Zojuist", "fa fa-clock", "fa fa-check", "#5F895F");
+        displaySmallBoxWithColor(title, "#5F895F");
     }
 
     /**
@@ -63,7 +63,7 @@ public final class FrontendHelper {
      * @param title of the smallbox
      */
     public static void displayWarningSmallBox(String title) {
-        displaySmallBox(title, "Zojuist", "fa fa-clock", "fa fa-info", "#FF9900");
+        displaySmallBoxWithColor(title, "#FF9900");
     }
 
     /**
@@ -73,9 +73,13 @@ public final class FrontendHelper {
      * @param title of the smallbox
      */
     public static void displayErrorSmallBox(String title) {
-        displaySmallBox(title, "Zojuist", "fa fa-clock", "fa fa-remove", "#a90329");
+        displaySmallBoxWithColor(title, "#a90329");
     }
 
+    public static void displaySmallBoxWithColor(String title, String color) {
+        displaySmallBox(title, "Zojuist", "fa fa-clock", "fa fa-remove", color);
+    }
+    
     /**
      * Display a bigbox in the bottom right corner of the screen.
      *
