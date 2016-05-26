@@ -2,6 +2,7 @@ package web.beans;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -55,7 +56,7 @@ public class UserLoginBean implements Serializable {
                     userInfoBean.getLoggedInUser().getDriver().setSubscribedToTrafficInfo(subscribed);
                     userInfoBean.getCars().addAll(Communicator.getCars(user.getId()));
                 } catch (IOException ex) {
-                    LOGGER.warning(ex.toString());
+                    LOGGER.log(Level.WARNING, "Error: ", ex);
                 }
                 RedirectHelper.redirect(to);
             } else {
