@@ -10,6 +10,9 @@ import org.primefaces.context.RequestContext;
  */
 public final class FrontendHelper {
 
+    private static final String JQUERY_BEGIN = "$(\"#";
+    private static final String JQUERY_END = "\")";
+    
     private FrontendHelper() {
         //Utility class constructor cannot be called
     }
@@ -133,7 +136,7 @@ public final class FrontendHelper {
     }
     
     public static String getJQueryPrefix(String selector) {
-        return "$(\"#" + selector + "\")";
+        return JQUERY_BEGIN + selector + JQUERY_END;
     }
 
     /**
@@ -145,9 +148,9 @@ public final class FrontendHelper {
     private static void widget(String widgetId, String var) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("if (").append(var).append("$(\"#");
+        sb.append("if (").append(var).append(JQUERY_BEGIN);
         sb.append(widgetId).append("\").hasClass('jarviswidget-collapsed')) {");
-        sb.append("$(\"#").append(widgetId).append(" a.jarviswidget-toggle-btn\").trigger(\"click\");");
+        sb.append(JQUERY_BEGIN).append(widgetId).append(" a.jarviswidget-toggle-btn\").trigger(\"click\");");
         sb.append("}");
 
         RequestContext.getCurrentInstance().execute(sb.toString());

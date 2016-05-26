@@ -26,8 +26,8 @@ import web.core.helpers.RedirectHelper;
 @SessionScoped
 public class UserInfoBean implements Serializable {
 
-    private final transient Logger LOGGER = Logger.getLogger(this.getClass().getName());
-    
+    private static final Logger LOGGER = Logger.getLogger(UserInfoBean.class.getName());
+
     @Inject
     private UserService userService;
 
@@ -63,8 +63,8 @@ public class UserInfoBean implements Serializable {
             loggedInUser.getDriver().setSubscribedToTrafficInfo(subscribed);
             FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
         } catch (IOException ex) {
-            FrontendHelper.displayErrorSmallBox("Opslaan mislukt!");
             LOGGER.warning(ex.toString());
+            FrontendHelper.displayErrorSmallBox("Opslaan mislukt!");
         }
     }
 
