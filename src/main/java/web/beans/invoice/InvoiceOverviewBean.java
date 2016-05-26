@@ -29,8 +29,8 @@ public class InvoiceOverviewBean implements Serializable {
     @Inject
     private UserInfoBean userInfoBean;
     private Invoice invoice;
-    @Transient
-    private ListPaginator<Invoice> invoicePaginator;
+
+    private transient ListPaginator<Invoice> invoicePaginator;
 
     public void init() {
         if (!ContextHelper.isAjaxRequest()) {
@@ -53,7 +53,7 @@ public class InvoiceOverviewBean implements Serializable {
             FrontendHelper.displaySuccessSmallBox("Saved");
             invoicePaginator = new ListPaginator<>(Communicator.getAllInvoices(userInfoBean.getLoggedInUser().getId()));
             invoicePaginator.setItemsPerPage(15);
-        } catch (IOException | JSONException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
             FrontendHelper.displayWarningSmallBox("Something went wrong");
         }

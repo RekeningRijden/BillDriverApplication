@@ -1,9 +1,11 @@
 package web.beans;
 
+import com.sun.istack.logging.Logger;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -59,8 +61,9 @@ public class UserInfoBean implements Serializable {
             loggedInUser.setDriver(Communicator.getDriver(loggedInUser.getId()));
             loggedInUser.getDriver().setSubscribedToTrafficInfo(subscribed);
             FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
-        } catch (IOException | JSONException e) {
+        } catch (IOException ex) {
             FrontendHelper.displayErrorSmallBox("Opslaan mislukt!");
+            Logger.getLogger(this.getClass()).log(Level.WARNING, ex.toString());
         }
     }
 

@@ -14,7 +14,7 @@ import org.apache.commons.codec.binary.Base64;
  */
 public class PasswordGenerator {
     
-    public PasswordGenerator() {
+    private PasswordGenerator() {
         // do nothing
     }
 
