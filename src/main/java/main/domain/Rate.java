@@ -2,7 +2,6 @@ package main.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * Created by martijn on 13-5-2016.

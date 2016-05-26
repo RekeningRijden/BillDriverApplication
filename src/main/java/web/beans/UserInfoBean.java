@@ -60,24 +60,21 @@ public class UserInfoBean implements Serializable {
             loggedInUser.getDriver().setSubscribedToTrafficInfo(subscribed);
             FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
             FrontendHelper.displayErrorSmallBox("Opslaan mislukt!");
         }
     }
 
     public void changePassword() {
-        if(loggedInUser.getPassword().equals(PasswordGenerator.encryptPassword(loggedInUser.getUsername(),this.oldPassword))){
-            if(this.newPassword.equals(this.repeatPassword)) {
-                loggedInUser.setPassword(PasswordGenerator.encryptPassword(loggedInUser.getUsername(),this.newPassword));
+        if (loggedInUser.getPassword().equals(PasswordGenerator.encryptPassword(loggedInUser.getUsername(), this.oldPassword))) {
+            if (this.newPassword.equals(this.repeatPassword)) {
+                loggedInUser.setPassword(PasswordGenerator.encryptPassword(loggedInUser.getUsername(), this.newPassword));
                 userService.update(loggedInUser);
                 FrontendHelper.hideModal("newPasswordModal");
                 FrontendHelper.displaySuccessSmallBox("Wachtwoord is aangepast!");
-            }
-            else {
+            } else {
                 FrontendHelper.displayErrorSmallBox("Wachtwoord komt niet overeen!");
             }
-        }
-        else{
+        } else {
             FrontendHelper.displayErrorSmallBox("Oud wachtwoord onjuist!");
         }
     }
@@ -93,7 +90,7 @@ public class UserInfoBean implements Serializable {
     public String getLoggedInUsername() {
         if (getLoggedInUser() != null) {
             return getLoggedInUser().getUsername();
-        }else{
+        } else {
             return "";
         }
     }

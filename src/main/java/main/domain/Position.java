@@ -12,18 +12,19 @@ import java.io.Serializable;
  * @author maikel
  */
 public class Position implements Serializable, IEntity {
+
     private Long id;
     private double longitude;
     private double latitude;
 
     public Position() {
+        // empty constructor
     }
 
     public Position(double longitude, double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
-    
 
     @Override
     public Long getId() {
@@ -49,6 +50,5 @@ public class Position implements Serializable, IEntity {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-    
-    
+
 }

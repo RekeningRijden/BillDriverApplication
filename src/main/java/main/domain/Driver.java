@@ -35,6 +35,7 @@ public class Driver implements Serializable, IEntity {
     private Address address;
 
     public Driver() {
+        // empty constructor
     }
 
     //<editor-fold defaultstate="collapsed" desc="getters/setters">

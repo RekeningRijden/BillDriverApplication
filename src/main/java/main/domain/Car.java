@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Created by martijn on 13-5-2016.
  */
-public class Car implements Serializable, IEntity{
+public class Car implements Serializable, IEntity {
 
     private Long id;
 
@@ -79,12 +79,8 @@ public class Car implements Serializable, IEntity{
         this.rate = rate;
     }
 
-
     //</editor-fold>
-
-
     //<editor-fold defaultstate="collapsed" desc="HashCode/Equals">
-
     @Override
     public int hashCode() {
         int hash = 5;

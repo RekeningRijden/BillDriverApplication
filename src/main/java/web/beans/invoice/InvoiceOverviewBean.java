@@ -2,7 +2,6 @@ package web.beans.invoice;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,6 +9,7 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Transient;
 import main.core.communication.Communicator;
 
 import main.domain.Invoice;
@@ -29,6 +29,7 @@ public class InvoiceOverviewBean implements Serializable {
     @Inject
     private UserInfoBean userInfoBean;
     private Invoice invoice;
+    @Transient
     private ListPaginator<Invoice> invoicePaginator;
 
     public void init() {

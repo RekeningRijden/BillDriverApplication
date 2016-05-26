@@ -1,28 +1,15 @@
 package main.domain;
 
-import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlTransient;
 
 public class Ownership implements Serializable, IEntity {
 
-   private Long id;
+    private Long id;
 
     @Temporal(TemporalType.DATE)
     private Date startDate;
@@ -33,6 +20,7 @@ public class Ownership implements Serializable, IEntity {
     private Driver driver;
 
     public Ownership() {
+        // empty constructor
     }
 
     //<editor-fold desc="Getters/Setters">

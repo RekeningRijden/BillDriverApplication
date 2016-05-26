@@ -27,12 +27,12 @@ import web.core.helpers.RedirectHelper;
 @Named
 @ViewScoped
 public class SuccessBean implements Serializable {
-    
+
     @Inject
     private UserInfoBean userInfoBean;
     private Long invoiceId;
     private Invoice invoice;
-    
+
     public void init() {
         if (!ContextHelper.isAjaxRequest()) {
             try {
@@ -61,6 +61,5 @@ public class SuccessBean implements Serializable {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
-    
-    
+
 }
