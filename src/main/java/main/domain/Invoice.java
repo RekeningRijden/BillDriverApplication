@@ -59,28 +59,4 @@ public class Invoice implements Serializable, IEntity {
     }
 
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="HashCode/Equals">
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Invoice other = (Invoice) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
-    }
-
-    //</editor-fold>
 }

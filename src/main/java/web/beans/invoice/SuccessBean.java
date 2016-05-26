@@ -15,7 +15,6 @@ import javax.inject.Named;
 import main.core.communication.Communicator;
 import main.domain.Invoice;
 import main.domain.enums.PaymentStatus;
-import org.codehaus.jettison.json.JSONException;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
 import web.core.helpers.RedirectHelper;

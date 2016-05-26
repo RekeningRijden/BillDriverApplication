@@ -19,8 +19,9 @@ import web.core.helpers.RedirectHelper;
 @ViewScoped
 public class UserLoginBean implements Serializable {
 
-    private static String DefaultUsername = "admin";
-    private static String DefaultPassword = "admin";
+    private final Logger LOGGER = Logger.getLogger(this.getClass().getName());
+    private static final String defaultUsername = "admin";
+    private static final String defaultPassword = "admin";
 
     @Inject
     private UserService userService;
@@ -35,8 +36,8 @@ public class UserLoginBean implements Serializable {
     public void createDefault() {
         if (userService.getAll().isEmpty()) {
             User u = new User();
-            u.setUsername(DefaultUsername);
-            u.setPassword(PasswordGenerator.encryptPassword(DefaultUsername, DefaultPassword));
+            u.setUsername(defaultUsername);
+            u.setPassword(PasswordGenerator.encryptPassword(defaultUsername, defaultPassword));
             userService.create(u);
         }
     }
@@ -54,7 +55,7 @@ public class UserLoginBean implements Serializable {
                     userInfoBean.getLoggedInUser().getDriver().setSubscribedToTrafficInfo(subscribed);
                     userInfoBean.getCars().addAll(Communicator.getCars(user.getId()));
                 } catch (IOException ex) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.toString());
+                    LOGGER.log(Level.WARNING, ex.toString());
                 }
                 RedirectHelper.redirect(to);
             } else {

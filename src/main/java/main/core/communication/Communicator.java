@@ -30,10 +30,6 @@ import org.codehaus.jettison.json.JSONObject;
  */
 public class Communicator {
 
-    private Communicator() {
-
-    }
-
     /**
      * The production url of the Movementsystem api.
      */
@@ -41,6 +37,10 @@ public class Communicator {
 
     private static final String CHARACTER_SET = "UTF-8";
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+
+    private Communicator() {
+        // empty constructor
+    }
 
     /**
      * Gets all known cartrackers from the Movementsystem Api
@@ -145,7 +145,6 @@ public class Communicator {
 
             String jsonBody = gson.toJson(invoice);
             StringEntity postingString = new StringEntity(jsonBody, CHARACTER_SET);
-            //System.out.println(jsonBody);
             post.setEntity(postingString);
             post.setHeader(HTTP.CONTENT_TYPE, "application/json");
 
@@ -154,7 +153,6 @@ public class Communicator {
             //Response
             String responseString = EntityUtils.toString(response.getEntity(), CHARACTER_SET);
             JSONObject json = new JSONObject(responseString);
-            //System.out.println("JSON Response: " + json);
             return json.getLong("id");
         } catch (IOException | JSONException ex) {
             Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);
@@ -170,7 +168,6 @@ public class Communicator {
 
             String jsonBody = gson.toJson(user);
             StringEntity postingString = new StringEntity(jsonBody, CHARACTER_SET);
-            //System.out.println(jsonBody);
             post.setEntity(postingString);
             post.setHeader(HTTP.CONTENT_TYPE, "application/json");
 
@@ -202,7 +199,6 @@ public class Communicator {
 
             String responseString = EntityUtils.toString(response.getEntity(), CHARACTER_SET);
             JSONObject json = new JSONObject(responseString);
-            //System.out.println("JSON Response: " + json);
             return json.getLong("cartrackerId");
         } catch (IOException ex) {
             Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);

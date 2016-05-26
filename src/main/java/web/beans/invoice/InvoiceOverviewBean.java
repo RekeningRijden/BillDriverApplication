@@ -9,11 +9,9 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Transient;
 import main.core.communication.Communicator;
 
 import main.domain.Invoice;
-import org.codehaus.jettison.json.JSONException;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
 import web.core.helpers.FrontendHelper;

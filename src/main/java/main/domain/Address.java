@@ -69,27 +69,4 @@ public class Address implements Serializable, IEntity {
         this.country = country;
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="HashCode/Equals">
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Address address = (Address) o;
-
-        return id != null ? id.equals(address.id) : address.id == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    //</editor-fold>
 }

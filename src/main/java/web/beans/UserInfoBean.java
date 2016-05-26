@@ -1,11 +1,11 @@
 package web.beans;
 
-import com.sun.istack.logging.Logger;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,7 +15,6 @@ import main.core.helper.PasswordGenerator;
 import main.domain.Car;
 import main.domain.User;
 import main.service.UserService;
-import org.codehaus.jettison.json.JSONException;
 import web.core.helpers.FrontendHelper;
 import web.core.helpers.RedirectHelper;
 
@@ -27,6 +26,8 @@ import web.core.helpers.RedirectHelper;
 @SessionScoped
 public class UserInfoBean implements Serializable {
 
+    private final Logger LOGGER = Logger.getLogger(this.getClass().getName());
+    
     @Inject
     private UserService userService;
 
@@ -63,7 +64,7 @@ public class UserInfoBean implements Serializable {
             FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
         } catch (IOException ex) {
             FrontendHelper.displayErrorSmallBox("Opslaan mislukt!");
-            Logger.getLogger(this.getClass()).log(Level.WARNING, ex.toString());
+            LOGGER.log(Level.WARNING, ex.toString());
         }
     }
 
