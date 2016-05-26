@@ -64,7 +64,7 @@ public class UserInfoBean implements Serializable {
             FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
         } catch (IOException ex) {
             FrontendHelper.displayErrorSmallBox("Opslaan mislukt!");
-            LOGGER.log(Level.WARNING, ex.toString());
+            LOGGER.warning(ex.toString());
         }
     }
 

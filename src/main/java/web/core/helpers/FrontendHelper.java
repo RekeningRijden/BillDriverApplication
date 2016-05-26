@@ -118,7 +118,7 @@ public final class FrontendHelper {
      * @param modalName name of the modal to show.
      */
     public static void showModal(String modalName) {
-        String executable = "$(\"#" + modalName + "\").modal(\"show\");";
+        String executable = getJQueryPrefix(modalName) + ".modal(\"show\");";
         RequestContext.getCurrentInstance().execute(executable);
     }
 
@@ -128,8 +128,12 @@ public final class FrontendHelper {
      * @param modalName name of the modal to hide.
      */
     public static void hideModal(String modalName) {
-        String executable = "$(\"#" + modalName + "\").modal(\"hide\");";
+        String executable = getJQueryPrefix(modalName) + ".modal(\"hide\");";
         RequestContext.getCurrentInstance().execute(executable);
+    }
+    
+    public static String getJQueryPrefix(String selector) {
+        return "$(\"#" + selector + "\")";
     }
 
     /**

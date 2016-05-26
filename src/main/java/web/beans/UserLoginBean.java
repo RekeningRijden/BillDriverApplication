@@ -19,7 +19,7 @@ import web.core.helpers.RedirectHelper;
 @ViewScoped
 public class UserLoginBean implements Serializable {
 
-    private transient final Logger LOGGER = Logger.getLogger(this.getClass().getName());
+    private static final Logger LOGGER = Logger.getLogger(UserLoginBean.class.getName());
     
     private static final String DEFAULT_USERNAME = "admin";
     private static final String DEFAULT_PASS = "admin";

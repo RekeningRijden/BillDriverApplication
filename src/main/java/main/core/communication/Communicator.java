@@ -33,8 +33,13 @@ public class Communicator {
     /**
      * The production url of the Movementsystem api.
      */
-    private static final String BASE_URL_PRODUCTION = "http://administration.s63a.marijn.ws/api/users/"; // or for test http://localhost:8080/AdministrationSystem/api/users/
-
+    private static final String BASE_URL_ADMINISTRATION = "http://administration.s63a.marijn.ws/api"; // or for test http://localhost:8080/AdministrationSystem/api/users/
+    private static final String BASE_URL_MOVEMENT = "http://movement.s63a.marijn.ws/api"; // or for test http://localhost:8080/AdministrationSystem/api/users/
+    
+    private static final String PATH_USERS = "/users/";
+    private static final String PATH_INVOICES = "/invoices/";
+    private static final String PATH_TRACKERS = "/trackers/";
+    
     private static final String CHARACTER_SET = "UTF-8";
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
@@ -52,7 +57,7 @@ public class Communicator {
      */
     public static List<Invoice> getAllInvoices(Long id) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + id + "/invoices");
+        HttpGet get = new HttpGet(BASE_URL_ADMINISTRATION + PATH_USERS + id + "/invoices");
         HttpResponse response = httpClient.execute(get);
 
         String responseString = EntityUtils.toString(response.getEntity(), CHARACTER_SET);
@@ -71,7 +76,7 @@ public class Communicator {
      */
     public static Invoice getInvoice(Long id, Long invoiceId) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + id + "/invoices/" + invoiceId);
+        HttpGet get = new HttpGet(BASE_URL_ADMINISTRATION + PATH_USERS + id + PATH_INVOICES + invoiceId);
         HttpResponse response = httpClient.execute(get);
 
         String responseString = EntityUtils.toString(response.getEntity(), CHARACTER_SET);
@@ -88,7 +93,7 @@ public class Communicator {
      */
     public static Driver getDriver(Long driverId) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId);
+        HttpGet get = new HttpGet(BASE_URL_ADMINISTRATION + PATH_USERS + driverId);
         HttpResponse response = httpClient.execute(get);
 
         String responseString = EntityUtils.toString(response.getEntity(), CHARACTER_SET);
@@ -105,7 +110,7 @@ public class Communicator {
      */
     public static List<Car> getCars(Long driverId) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId + "/ownerships");
+        HttpGet get = new HttpGet(BASE_URL_ADMINISTRATION + PATH_USERS + driverId + "/ownerships");
         HttpResponse response = httpClient.execute(get);
 
         String responseString = EntityUtils.toString(response.getEntity(), CHARACTER_SET);
@@ -141,7 +146,7 @@ public class Communicator {
         try {
             Gson gson = new Gson();
             HttpClient httpClient = HttpClientBuilder.create().build();
-            HttpPut post = new HttpPut(BASE_URL_PRODUCTION + userId + "/invoices/" + invoice.getId());
+            HttpPut post = new HttpPut(BASE_URL_ADMINISTRATION + PATH_USERS + userId + PATH_INVOICES + invoice.getId());
 
             String jsonBody = gson.toJson(invoice);
             StringEntity postingString = new StringEntity(jsonBody, CHARACTER_SET);
@@ -164,7 +169,7 @@ public class Communicator {
         try {
             Gson gson = new Gson();
             HttpClient httpClient = HttpClientBuilder.create().build();
-            HttpPost post = new HttpPost(BASE_URL_PRODUCTION + user.getId());
+            HttpPost post = new HttpPost(BASE_URL_ADMINISTRATION + PATH_USERS + user.getId());
 
             String jsonBody = gson.toJson(user);
             StringEntity postingString = new StringEntity(jsonBody, CHARACTER_SET);
@@ -194,7 +199,7 @@ public class Communicator {
     public static Long getCartrackerId(Long id, Long invoiceId) throws JSONException {
         try {
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            HttpGet get = new HttpGet(BASE_URL_PRODUCTION + id + "/invoices/" + invoiceId + "/cartracker");
+            HttpGet get = new HttpGet(BASE_URL_ADMINISTRATION + PATH_USERS + id + PATH_INVOICES + invoiceId + "/cartracker");
             HttpResponse response = httpClient.execute(get);
 
             String responseString = EntityUtils.toString(response.getEntity(), CHARACTER_SET);
@@ -217,7 +222,7 @@ public class Communicator {
     public static List<Position> getPositions(Long id) {
         try {
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            HttpGet get = new HttpGet("http://movement.s63a.marijn.ws/api/trackers/" + id + "/movements");
+            HttpGet get = new HttpGet(BASE_URL_MOVEMENT + PATH_TRACKERS + id + "/movements");
             HttpResponse response = httpClient.execute(get);
 
             List<Position> positions = new ArrayList<>();
