@@ -96,8 +96,7 @@
                                                                                         rendered="#{item.paymentStatus.toString() eq 'Open'}">
                                                                                         <h:commandLink class="btn btn-primary btn-xs"
                                                                                                        action="#{invoiceOverviewBean.setInvoice(item)}"
-                                                                                                       onclick="$('#editInvoiceModal').modal('show');
-                                                                                                               setAmount()">
+                                                                                                       onclick="$('#editInvoiceModal').modal('show')">
                                                                                             <i class="fa fa-pencil"/>
                                                                                             <f:ajax execute="@this" render=":modal-form-1"/>
                                                                                         </h:commandLink>
@@ -204,6 +203,7 @@
                 function setAmount() {
                     document.getElementById("amount").value = document.getElementById("modal-form-1:invoiceValue").value;
                     document.getElementById("return").value = "http://billdriver.s63a.marijn.ws/BillDriverApplication/pages/invoice/success.xhtml?invoiceId=" + document.getElementById("modal-form-1:invoiceId").value;
+                    #{successBean.setCanUpdateStatus(true)};
                 }
             </script>
         </ui:define>
