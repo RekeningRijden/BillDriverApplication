@@ -102,26 +102,36 @@ public class Communicator {
      * @throws IOException
      */
     public static List<Car> getCars(Long driverId) throws IOException {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId + "/ownerships" );
-        HttpResponse response = httpClient.execute(get);
 
-        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
-        System.out.println("response: " + responseString);
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-        List<Ownership> owners = gson.fromJson(responseString, new TypeToken<List<Ownership>>() {
-        }.getType());
+        List<Ownership> owners = getOwnerships(driverId);
 
         List<Car> cars = new ArrayList<>();
         for(Ownership o : owners){
             boolean carExists = false;
             for (Car c : cars){
-                if (o.getCar() == c){
+                if (o.getCar().getId() == c.getId()){
                     carExists = true;
                 }
             }
+
             if (!carExists){
-                cars.add(o.getCar());
+                Car c = o.getCar();
+                if(o.getEndDate() == null) {
+                    c.setCurrentOwnership(o);
+                }else{
+                    c.getPastOwnerships().add(o);
+                }
+                cars.add(c);
+            }else{
+                for (Car c : cars) {
+                    if (o.getCar().getId() == c.getId()) {
+                        if(o.getEndDate() == null) {
+                            c.setCurrentOwnership(o);
+                        }else{
+                            c.getPastOwnerships().add(o);
+                        }
+                    }
+                }
             }
         }
         return cars;
@@ -218,5 +228,17 @@ public class Communicator {
             positions.addAll(t.getPositions());
         }
         return positions;
+    }
+
+    public static List<Ownership> getOwnerships(Long driverId) throws IOException {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId + "/ownerships" );
+        HttpResponse response = httpClient.execute(get);
+
+        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        System.out.println("response: " + responseString);
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        return gson.fromJson(responseString, new TypeToken<List<Ownership>>() {
+        }.getType());
     }
 }

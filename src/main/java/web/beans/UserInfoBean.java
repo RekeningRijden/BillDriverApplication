@@ -11,6 +11,7 @@ import javax.inject.Named;
 import main.core.communication.Communicator;
 import main.core.helper.PasswordGenerator;
 import main.domain.Car;
+import main.domain.Ownership;
 import main.domain.User;
 import main.service.UserService;
 import org.codehaus.jettison.json.JSONException;
@@ -35,6 +36,8 @@ public class UserInfoBean implements Serializable {
     private String repeatPassword;
 
     private List<Car> cars = new ArrayList<>();
+
+    private List<Ownership> ownerships = new ArrayList<>();
 
     public void logout() {
         loggedInUser = null;
@@ -128,5 +131,13 @@ public class UserInfoBean implements Serializable {
 
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;
+    }
+
+    public List<Ownership> getOwnerships() {
+        return ownerships;
+    }
+
+    public void setOwnerships(List<Ownership> ownerships) {
+        this.ownerships = ownerships;
     }
 }

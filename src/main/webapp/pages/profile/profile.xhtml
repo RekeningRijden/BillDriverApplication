@@ -10,6 +10,10 @@
     <ui:composition template="../../templates/main.xhtml">
         <ui:param name="root" value="#{request.contextPath}"/>
 
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{profileBean.init()}"/>
+        </f:metadata>
+
         <ui:define name="content">
             <div id="content">
                 <h:form id="form">
@@ -154,7 +158,7 @@
                         </div>
                         <div class="row">
                             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
+                                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-1"
                                      data-widget-fullscreenbutton="false" data-widget-togglebutton="false"
                                      data-widget-editbutton="false" data-widget-colorbutton="false"
                                      data-widget-deletebutton="false" data-widget-sortable="false">
@@ -166,7 +170,7 @@
                                     <div>
                                         <div class="jarviswidget-editbox">
                                         </div>
-                                        <div class="widget-body">
+                                        <div class="widget-body no-padding">
                                             <fieldset>
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -179,6 +183,9 @@
                                                                     <th>
                                                                         #{txt.RATE}
                                                                     </th>
+                                                                    <th>
+                                                                        #{txt.DATE}
+                                                                    </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -189,6 +196,25 @@
                                                                         </td>
                                                                         <td>
                                                                             <h:outputText value="#{car.rate.name}/#{car.rate.value}" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <ui:fragment rendered="#{car.currentOwnership.startDate ne null}">
+                                                                                <strong>Current: </strong><h:outputText value="#{car.currentOwnership.startDate}">
+                                                                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                                            </h:outputText> - Heden
+                                                                                <br></br>
+                                                                            </ui:fragment>
+
+                                                                            <ui:repeat value="#{car.pastOwnerships}" var="pastOwner">
+.
+                                                                                <strong>Past: </strong><h:outputText value="#{pastOwner.startDate}">
+                                                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                                                </h:outputText> -
+                                                                                <h:outputText value="#{pastOwner.endDate}">
+                                                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                                                </h:outputText>
+                                                                                <br></br>
+                                                                            </ui:repeat>
                                                                         </td>
                                                                     </tr>
                                                                 </ui:repeat>
