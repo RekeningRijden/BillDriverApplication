@@ -7,7 +7,6 @@ package web.beans;
 
 import java.io.Serializable;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -17,9 +16,5 @@ import javax.inject.Named;
 @Named
 @ViewScoped
 public class IndexBean implements Serializable {
-
-
-    public void init() {
-    }
 
 }

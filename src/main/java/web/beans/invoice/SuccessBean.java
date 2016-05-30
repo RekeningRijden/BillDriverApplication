@@ -15,7 +15,6 @@ import javax.inject.Named;
 import main.core.communication.Communicator;
 import main.domain.Invoice;
 import main.domain.enums.PaymentStatus;
-import org.codehaus.jettison.json.JSONException;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
 import web.core.helpers.RedirectHelper;
@@ -42,7 +41,7 @@ public class SuccessBean implements Serializable {
                     invoice.setPaymentStatus(PaymentStatus.PAID);
                     Communicator.updateInvoice(userInfoBean.getLoggedInUser().getId(), invoice);
                     RedirectHelper.redirect("/pages/invoice/invoiceOverview.xhtml");
-                } catch (IOException | JSONException ex) {
+                } catch (IOException ex) {
                     Logger.getLogger(SuccessBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

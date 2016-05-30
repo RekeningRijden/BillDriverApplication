@@ -16,7 +16,7 @@ import web.core.pagination.Paginator;
  * takes care of the lifecycle.
  *
  * @param <S> used to store a DataSourceService
- * @param <T>  used to store a domain Entity
+ * @param <T> used to store a domain Entity
  * @author Sam
  */
 public abstract class DataTableModel<S extends AbstractDao<T>, T extends IEntity> extends Paginator {
@@ -117,7 +117,6 @@ public abstract class DataTableModel<S extends AbstractDao<T>, T extends IEntity
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
-
     /**
      * Get the data that passed all the filters.
      *

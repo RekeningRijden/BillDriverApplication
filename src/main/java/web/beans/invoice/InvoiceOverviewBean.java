@@ -2,7 +2,6 @@ package web.beans.invoice;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +12,6 @@ import javax.inject.Named;
 import main.core.communication.Communicator;
 
 import main.domain.Invoice;
-import org.codehaus.jettison.json.JSONException;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
 import web.core.helpers.FrontendHelper;
@@ -29,7 +27,8 @@ public class InvoiceOverviewBean implements Serializable {
     @Inject
     private UserInfoBean userInfoBean;
     private Invoice invoice;
-    private ListPaginator<Invoice> invoicePaginator;
+
+    private transient ListPaginator<Invoice> invoicePaginator;
 
     public void init() {
         if (!ContextHelper.isAjaxRequest()) {
@@ -52,7 +51,7 @@ public class InvoiceOverviewBean implements Serializable {
             FrontendHelper.displaySuccessSmallBox("Saved");
             invoicePaginator = new ListPaginator<>(Communicator.getAllInvoices(userInfoBean.getLoggedInUser().getId()));
             invoicePaginator.setItemsPerPage(15);
-        } catch (IOException | JSONException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
             FrontendHelper.displayWarningSmallBox("Something went wrong");
         }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by martijn on 13-5-2016.
  */
-public class Address implements Serializable, IEntity{
+public class Address implements Serializable, IEntity {
 
     private Long id;
 
@@ -20,6 +20,7 @@ public class Address implements Serializable, IEntity{
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
+    @Override
     public Long getId() {
         return id;
     }
@@ -67,25 +68,5 @@ public class Address implements Serializable, IEntity{
     public void setCountry(String country) {
         this.country = country;
     }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="HashCode/Equals">
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Address address = (Address) o;
-
-        return id != null ? id.equals(address.id) : address.id == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
     //</editor-fold>
 }

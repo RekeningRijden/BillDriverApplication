@@ -2,7 +2,8 @@ package web.beans;
 
 import java.io.IOException;
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,6 +19,11 @@ import web.core.helpers.RedirectHelper;
 @ViewScoped
 public class UserLoginBean implements Serializable {
 
+    private static final Logger LOGGER = Logger.getLogger(UserLoginBean.class.getName());
+    
+    private static final String DEFAULT_USERNAME = "admin";
+    private static final String DEFAULT_PASS = "admin";
+
     @Inject
     private UserService userService;
     @Inject
@@ -31,8 +37,8 @@ public class UserLoginBean implements Serializable {
     public void createDefault() {
         if (userService.getAll().isEmpty()) {
             User u = new User();
-            u.setUsername("admin");
-            u.setPassword(PasswordGenerator.encryptPassword("admin", "admin"));
+            u.setUsername(DEFAULT_USERNAME);
+            u.setPassword(PasswordGenerator.encryptPassword(DEFAULT_USERNAME, DEFAULT_PASS));
             userService.create(u);
         }
     }
@@ -49,8 +55,8 @@ public class UserLoginBean implements Serializable {
                     userInfoBean.getLoggedInUser().setDriver(Communicator.getDriver(user.getId()));
                     userInfoBean.getLoggedInUser().getDriver().setSubscribedToTrafficInfo(subscribed);
                     userInfoBean.getCars().addAll(Communicator.getCars(user.getId()));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException ex) {
+                    LOGGER.log(Level.WARNING, "Error: ", ex);
                 }
                 RedirectHelper.redirect(to);
             } else {
@@ -82,8 +88,8 @@ public class UserLoginBean implements Serializable {
         return to;
     }
 
-    public void setTo(String _to) {
-        this.to = _to;
+    public void setTo(String to) {
+        this.to = to;
     }
     //</editor-fold>
 }

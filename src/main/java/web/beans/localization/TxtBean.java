@@ -10,6 +10,7 @@ import web.core.localization.Localization;
 public class TxtBean {
 
     public TxtBean() {
+        // empty constructor
     }
 
     public String g(String s) {
@@ -28,7 +29,7 @@ public class TxtBean {
         return params == null ? g(s) : Localization.g(s, params);
     }
 
-    private String getWithParams(String s, Object... params) {
+    private static String getWithParams(String s, Object... params) {
         return Localization.g(s, params);
     }
 }

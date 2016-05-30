@@ -13,6 +13,10 @@ import org.apache.commons.codec.binary.Base64;
  * @author Sam
  */
 public class PasswordGenerator {
+    
+    private PasswordGenerator() {
+        // do nothing
+    }
 
     public static String generateRandomPassword(int length) {
         Random random = new Random();
