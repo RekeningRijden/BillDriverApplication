@@ -6,8 +6,6 @@
 package main.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.*;
 
 import main.domain.enums.Language;
@@ -26,7 +24,7 @@ public class User implements Serializable, IEntity {
     private String username;
     private String password;
     private String email;
-    
+
     @Enumerated(EnumType.STRING)
     private Language language;
     @ManyToOne
@@ -35,6 +33,7 @@ public class User implements Serializable, IEntity {
     private Driver driver;
 
     public User() {
+        // empty constructor
     }
 
     //<editor-fold defaultstate="collapsed" desc="getters/setters">
@@ -95,6 +94,5 @@ public class User implements Serializable, IEntity {
         this.driver = driver;
     }
 //</editor-fold>
-    
-    
+
 }

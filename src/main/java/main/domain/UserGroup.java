@@ -19,14 +19,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "UserGroup")
 public class UserGroup implements Serializable, IEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
 
     public UserGroup() {
+        // empty constructor
     }
 
     @Override
@@ -45,5 +46,5 @@ public class UserGroup implements Serializable, IEntity {
     public void setName(String name) {
         this.name = name;
     }
-        
+
 }

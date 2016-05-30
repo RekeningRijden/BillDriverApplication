@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,7 +16,6 @@ import main.domain.Car;
 import main.domain.Ownership;
 import main.domain.User;
 import main.service.UserService;
-import org.codehaus.jettison.json.JSONException;
 import web.core.helpers.FrontendHelper;
 import web.core.helpers.RedirectHelper;
 
@@ -25,6 +26,8 @@ import web.core.helpers.RedirectHelper;
 @Named
 @SessionScoped
 public class UserInfoBean implements Serializable {
+
+    private static final Logger LOGGER = Logger.getLogger(UserInfoBean.class.getName());
 
     @Inject
     private UserService userService;
@@ -62,25 +65,23 @@ public class UserInfoBean implements Serializable {
             loggedInUser.setDriver(Communicator.getDriver(loggedInUser.getId()));
             loggedInUser.getDriver().setSubscribedToTrafficInfo(subscribed);
             FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "Error: ", ex);
             FrontendHelper.displayErrorSmallBox("Opslaan mislukt!");
         }
     }
 
     public void changePassword() {
-        if(loggedInUser.getPassword().equals(PasswordGenerator.encryptPassword(loggedInUser.getUsername(),this.oldPassword))){
-            if(this.newPassword.equals(this.repeatPassword)) {
-                loggedInUser.setPassword(PasswordGenerator.encryptPassword(loggedInUser.getUsername(),this.newPassword));
+        if (loggedInUser.getPassword().equals(PasswordGenerator.encryptPassword(loggedInUser.getUsername(), this.oldPassword))) {
+            if (this.newPassword.equals(this.repeatPassword)) {
+                loggedInUser.setPassword(PasswordGenerator.encryptPassword(loggedInUser.getUsername(), this.newPassword));
                 userService.update(loggedInUser);
                 FrontendHelper.hideModal("newPasswordModal");
                 FrontendHelper.displaySuccessSmallBox("Wachtwoord is aangepast!");
-            }
-            else {
+            } else {
                 FrontendHelper.displayErrorSmallBox("Wachtwoord komt niet overeen!");
             }
-        }
-        else{
+        } else {
             FrontendHelper.displayErrorSmallBox("Oud wachtwoord onjuist!");
         }
     }
@@ -96,7 +97,7 @@ public class UserInfoBean implements Serializable {
     public String getLoggedInUsername() {
         if (getLoggedInUser() != null) {
             return getLoggedInUser().getUsername();
-        }else{
+        } else {
             return "";
         }
     }
