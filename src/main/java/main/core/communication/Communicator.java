@@ -80,13 +80,14 @@ public class Communicator {
 
     /**
      * Get a driver
+     *
      * @param driverId
      * @return
      * @throws IOException
      */
     public static Driver getDriver(Long driverId) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId );
+        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId);
         HttpResponse response = httpClient.execute(get);
 
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -97,6 +98,7 @@ public class Communicator {
 
     /**
      * Get a list of cars
+     *
      * @param driverId
      * @return
      * @throws IOException
@@ -106,33 +108,28 @@ public class Communicator {
         List<Ownership> owners = getOwnerships(driverId);
 
         List<Car> cars = new ArrayList<>();
-        for(Ownership o : owners){
-            boolean carExists = false;
-            for (Car c : cars){
-                if (o.getCar().getId() == c.getId()){
-                    carExists = true;
-                }
-            }
-
-            if (!carExists){
-                Car c = o.getCar();
-                if(o.getEndDate() == null) {
-                    c.setCurrentOwnership(o);
-                }else{
-                    c.getPastOwnerships().add(o);
-                }
-                cars.add(c);
-            }else{
-                for (Car c : cars) {
-                    if (o.getCar().getId() == c.getId()) {
-                        if(o.getEndDate() == null) {
-                            c.setCurrentOwnership(o);
-                        }else{
-                            c.getPastOwnerships().add(o);
-                        }
+        for (Ownership o : owners) {
+            Car existingCar = null;
+            for (Car c : cars) {
+                if (o.getCar().getId() == c.getId()) {
+                    existingCar = c;
+                    if (o.getEndDate() == null) {
+                        existingCar.setCurrentOwnership(o);
+                    } else {
+                        existingCar.getPastOwnerships().add(o);
                     }
                 }
             }
+
+            if (existingCar == null) {
+                Car c = o.getCar();
+                if (o.getEndDate() == null) {
+                    c.setCurrentOwnership(o);
+                } else {
+                    c.getPastOwnerships().add(o);
+                }
+                cars.add(c);
+            } 
         }
         return cars;
     }
@@ -223,8 +220,8 @@ public class Communicator {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         List<TrackingPeriod> periods = gson.fromJson(responseString, new TypeToken<List<TrackingPeriod>>() {
         }.getType());
-        
-        for(TrackingPeriod t : periods){
+
+        for (TrackingPeriod t : periods) {
             positions.addAll(t.getPositions());
         }
         return positions;
@@ -232,7 +229,7 @@ public class Communicator {
 
     public static List<Ownership> getOwnerships(Long driverId) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId + "/ownerships" );
+        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId + "/ownerships");
         HttpResponse response = httpClient.execute(get);
 
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
