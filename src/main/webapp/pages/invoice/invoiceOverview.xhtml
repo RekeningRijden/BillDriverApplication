@@ -58,6 +58,9 @@
                                                                             #{txt.NUMBER}
                                                                         </th>
                                                                         <th>
+                                                                            #{txt.LICENSEPLATE}
+                                                                        </th>
+                                                                        <th>
                                                                             Status
                                                                         </th>
                                                                         <th>
@@ -74,6 +77,9 @@
                                                                         <tr>
                                                                             <td>
                                                                                 <h:outputText value="#{item.id}"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <h:outputText value="#{item.ownership.car.licencePlate}"/>
                                                                             </td>
                                                                             <td>
                                                                                 <h:outputText value="#{item.paymentStatus.toString()}"/>

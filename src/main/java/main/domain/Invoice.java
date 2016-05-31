@@ -18,6 +18,7 @@ public class Invoice implements Serializable, IEntity {
     private PaymentStatus paymentStatus;
     private Date period;
     private BigDecimal totalAmount;
+    private Ownership ownership;
 
     public Invoice() {
         this.totalAmount = BigDecimal.ZERO;
@@ -55,6 +56,14 @@ public class Invoice implements Serializable, IEntity {
 
     public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public Ownership getOwnership() {
+        return ownership;
+    }
+
+    public void setOwnership(Ownership ownership) {
+        this.ownership = ownership;
     }
 
     //</editor-fold>
