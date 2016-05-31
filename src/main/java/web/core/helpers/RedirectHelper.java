@@ -7,13 +7,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * @author Bas
- */
 public final class RedirectHelper {
 
     private RedirectHelper() {
-        //Utility class constructor cannot be called
+        // Utility class constructor cannot be called
     }
 
     public static void redirect(String relativeUrl) {

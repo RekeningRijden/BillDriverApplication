@@ -33,7 +33,7 @@ public class User implements Serializable, IEntity {
     private Driver driver;
 
     public User() {
-        // empty constructor
+        // Empty constructor
     }
 
     //<editor-fold defaultstate="collapsed" desc="getters/setters">

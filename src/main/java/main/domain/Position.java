@@ -18,7 +18,7 @@ public class Position implements Serializable, IEntity {
     private double latitude;
 
     public Position() {
-        // empty constructor
+        // Empty constructor
     }
 
     public Position(double longitude, double latitude) {

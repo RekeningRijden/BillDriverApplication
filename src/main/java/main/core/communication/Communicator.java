@@ -163,6 +163,13 @@ public class Communicator {
         return json.getLong("id");
     }
 
+    /**
+     * Update a user
+     * @param user
+     * @return
+     * @throws IOException
+     * @throws JSONException
+     */
     public static Driver updateUser(Driver user) throws IOException, JSONException {
         Gson gson = new Gson();
         HttpClient httpClient = HttpClientBuilder.create().build();
@@ -203,7 +210,7 @@ public class Communicator {
     }
 
     /**
-     * gets the positions by cartracker id
+     * Gets the positions by cartracker id
      *
      * @param id cartracker id
      * @return

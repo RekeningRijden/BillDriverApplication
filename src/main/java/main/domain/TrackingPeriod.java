@@ -34,6 +34,7 @@ public class TrackingPeriod implements Serializable {
         this.positions = positions;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Long getId() {
         return id;
     }
@@ -77,4 +78,5 @@ public class TrackingPeriod implements Serializable {
     public void addPosition(Position position) {
         this.positions.add(position);
     }
+    //</editor-fold>
 }

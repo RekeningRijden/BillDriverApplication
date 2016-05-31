@@ -14,7 +14,7 @@ public final class FrontendHelper {
     private static final String JQUERY_END = "\")";
     
     private FrontendHelper() {
-        //Utility class constructor cannot be called
+        // Utility class constructor cannot be called
     }
 
     /**

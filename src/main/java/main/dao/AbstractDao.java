@@ -75,7 +75,7 @@ public abstract class AbstractDao<T extends IEntity> {
     /**
      * Generate the part of a query responsible for sorting.
      *
-     * @param sortValue the database column name to sort on.
+     * @param sortValue The database column name to sort on.
      * @param sortOrder The order to sort in.
      * @return part of a JPQL query responsible for sorting.
      */
@@ -86,7 +86,7 @@ public abstract class AbstractDao<T extends IEntity> {
     }
 
     /**
-     * @param q the TypedQuery to get the result from.
+     * @param q The TypedQuery to get the result from.
      * @return one result from a executed TypedQuery. This method avoids
      * possible NoResultExceptions being thrown.
      */
@@ -99,8 +99,8 @@ public abstract class AbstractDao<T extends IEntity> {
     /**
      * Remove all characters not allowed in a JPQL query from a String.
      *
-     * @param fieldName to remove the characters from.
-     * @return String left after character replacement.
+     * @param fieldName To remove the characters from.
+     * @return string left after character replacement.
      */
     protected String makeFieldNameJqplSafe(String fieldName) {
         return fieldName.replaceAll("[^0-9a-zA-Z_\\.]", "");

@@ -49,7 +49,7 @@ public class UserInfoBean implements Serializable {
     }
 
     /**
-     * @param groupName name of group to be in.
+     * @param groupName Name of group to be in.
      * @return true if loggedInUser is in given group.
      */
     public boolean isLoggedInUserInGroup(String groupName) {

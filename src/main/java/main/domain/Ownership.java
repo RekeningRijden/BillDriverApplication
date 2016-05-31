@@ -19,7 +19,7 @@ public class Ownership implements Serializable, IEntity {
     private Driver driver;
 
     public Ownership() {
-        // empty constructor
+        // Empty constructor
     }
 
     //<editor-fold desc="Getters/Setters">

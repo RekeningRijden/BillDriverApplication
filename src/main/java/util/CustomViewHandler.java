@@ -12,16 +12,16 @@ import java.util.Map;
  */
 public class CustomViewHandler extends ViewHandlerWrapper {
 
-    private ViewHandler wrappped;
+    private ViewHandler wrapped;
 
-    public CustomViewHandler(ViewHandler wrappped) {
+    public CustomViewHandler(ViewHandler wrapped) {
         super();
-        this.wrappped = wrappped;
+        this.wrapped = wrapped;
     }
 
     @Override
     public ViewHandler getWrapped() {
-        return wrappped;
+        return wrapped;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CustomViewHandler extends ViewHandlerWrapper {
         ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
         String contextPath = servletContext.getContextPath();
         if ("".equals(contextPath)) {
-            return url; // root context path, nothing to remove
+            return url; // Root context path, nothing to remove.
         }
         return url.startsWith(contextPath) ? url.substring(contextPath.length()) : url;
     }

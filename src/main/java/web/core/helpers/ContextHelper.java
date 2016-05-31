@@ -8,7 +8,7 @@ import javax.faces.context.FacesContext;
 public final class ContextHelper {
 
     private ContextHelper() {
-        //Utility class constructor cannot be called
+        // Utility class constructor cannot be called
     }
 
     /**

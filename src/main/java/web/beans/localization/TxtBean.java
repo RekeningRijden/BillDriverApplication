@@ -10,7 +10,7 @@ import web.core.localization.Localization;
 public class TxtBean {
 
     public TxtBean() {
-        // empty constructor
+        // Empty constructor
     }
 
     public String g(String s) {

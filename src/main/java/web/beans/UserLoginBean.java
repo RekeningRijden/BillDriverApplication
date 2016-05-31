@@ -2,7 +2,6 @@ package web.beans;
 
 import java.io.IOException;
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;

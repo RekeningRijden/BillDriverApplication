@@ -6,6 +6,6 @@ package main.domain.enums;
 public enum SortOrder {
 
     ASCENDING,
-    DESCENDING;
+    DESCENDING
 
 }
