@@ -51,7 +51,7 @@ public class InvoiceOverviewBean implements Serializable {
             FrontendHelper.displaySuccessSmallBox("Saved");
             invoicePaginator = new ListPaginator<>(Communicator.getAllInvoices(userInfoBean.getLoggedInUser().getId()));
             invoicePaginator.setItemsPerPage(15);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
             FrontendHelper.displayWarningSmallBox("Something went wrong");
         }

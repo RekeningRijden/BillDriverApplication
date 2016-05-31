@@ -41,7 +41,7 @@ public class SuccessBean implements Serializable {
                     invoice.setPaymentStatus(PaymentStatus.PAID);
                     Communicator.updateInvoice(userInfoBean.getLoggedInUser().getId(), invoice);
                     RedirectHelper.redirect("/pages/invoice/invoiceOverview.xhtml");
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     Logger.getLogger(SuccessBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
