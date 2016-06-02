@@ -64,7 +64,7 @@ public class LoginFilter implements Filter {
 
     @Override
     public void destroy() {
-        //No implementation needed
+        // No implementation needed
     }
 
 }
