@@ -2,6 +2,9 @@ package main.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 
 /**
  * Created by martijn on 13-5-2016.
@@ -38,7 +41,7 @@ public class Rate implements Serializable, IEntity {
     }
 
     public BigDecimal getValue() {
-        return value;
+        return value.setScale(2, RoundingMode.CEILING);
     }
 
     public void setValue(BigDecimal value) {
