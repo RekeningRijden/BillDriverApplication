@@ -25,6 +25,8 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
+import main.core.exception.CommunicationException;
+
 /**
  * @author Sam
  */
@@ -52,6 +54,7 @@ public class Communicator {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet get = new HttpGet(BASE_URL_PRODUCTION + id + "/invoices");
         HttpResponse response = httpClient.execute(get);
+        checkResponse(response);
 
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
@@ -71,6 +74,7 @@ public class Communicator {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet get = new HttpGet(BASE_URL_PRODUCTION + id + "/invoices/" + invoiceId);
         HttpResponse response = httpClient.execute(get);
+        checkResponse(response);
 
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
         System.out.println("response: " + responseString);
@@ -89,6 +93,7 @@ public class Communicator {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId);
         HttpResponse response = httpClient.execute(get);
+        checkResponse(response);
 
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
         System.out.println("response: " + responseString);
@@ -155,6 +160,7 @@ public class Communicator {
         post.setHeader(HTTP.CONTENT_TYPE, "application/json");
 
         HttpResponse response = httpClient.execute(post);
+        checkResponse(response);
 
         //Response
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -182,6 +188,7 @@ public class Communicator {
         post.setHeader(HTTP.CONTENT_TYPE, "application/json");
 
         HttpResponse response = httpClient.execute(post);
+        checkResponse(response);
 
         //Response
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -202,6 +209,7 @@ public class Communicator {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet get = new HttpGet(BASE_URL_PRODUCTION + id + "/invoices/" + invoiceId + "/cartracker");
         HttpResponse response = httpClient.execute(get);
+        checkResponse(response);
 
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
         JSONObject json = new JSONObject(responseString);
@@ -221,6 +229,7 @@ public class Communicator {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet get = new HttpGet("http://movement.s63a.marijn.ws/api/trackers/" + id + "/movements");
         HttpResponse response = httpClient.execute(get);
+        checkResponse(response);
 
         List<Position> positions = new ArrayList<>();
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -238,11 +247,29 @@ public class Communicator {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet get = new HttpGet(BASE_URL_PRODUCTION + driverId + "/ownerships");
         HttpResponse response = httpClient.execute(get);
+        checkResponse(response);
 
         String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
         System.out.println("response: " + responseString);
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         return gson.fromJson(responseString, new TypeToken<List<Ownership>>() {
         }.getType());
+    }
+
+    /**
+     * Check if a received response is not null and has the statusCode code of 200.
+     *
+     * @param response to check.
+     * @throws CommunicationException if the response was null or the statusCode was not 200.s
+     */
+    private static void checkResponse(HttpResponse response) throws CommunicationException {
+        if (response == null) {
+            throw new CommunicationException("Response was null");
+        }
+
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode != 200) {
+            throw new CommunicationException("Response did not have statusCode 200, instead the code was: " + statusCode);
+        }
     }
 }
