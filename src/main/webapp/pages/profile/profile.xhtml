@@ -12,6 +12,7 @@
 
         <f:metadata>
             <f:event type="preRenderView" listener="#{profileBean.init()}"/>
+            <f:event type="preRenderView" listener="#{invoiceOverviewBean.init()}"/>
         </f:metadata>
 
         <ui:define name="content">
@@ -186,6 +187,9 @@
                                                                     <th>
                                                                         #{txt.DATE}
                                                                     </th>
+                                                                    <th>
+                                                                        #{txt.INVOICE}
+                                                                    </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -214,6 +218,15 @@
                                                                                     <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                                                 </h:outputText>
                                                                                 <br></br>
+                                                                            </ui:repeat>
+                                                                        </td>
+                                                                        <td>
+                                                                            <ui:repeat value="#{invoiceOverviewBean.invoices}" var="invoice">
+                                                                                <ui:fragment rendered="#{invoice.ownership.car.licencePlate == car.licencePlate}">
+                                                                                    <h:outputLink value="../invoice/maps.xhtml" class="btn btn-success btn-xs">
+                                                                                        <f:param name="invoiceNr" value="#{invoice.id}"/>
+                                                                                    </h:outputLink>
+                                                                                </ui:fragment>
                                                                             </ui:repeat>
                                                                         </td>
                                                                     </tr>

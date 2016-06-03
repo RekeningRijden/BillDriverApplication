@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
     <ui:composition>
         <ui:param name="root" value="#{request.contextPath}"/>
@@ -15,6 +15,14 @@
 
                 <div class="pull-right" style="min-width: 110px;">
                     <div class="header-button-group pull-right">
+                        <h:commandLink action="#{localeBean.SetEnglishLocale()}" style="margin-right: 4px;">
+                            <img src="#{root}/resources/img/gb.png" width="34" height="37" />
+                        </h:commandLink>
+
+                        <h:commandLink action="#{localeBean.SetDutchLocale()}" style="margin-right: 4px;">
+                        <img src="#{root}/resources/img/nl.png" width="34" height="37" />
+                        </h:commandLink>
+
                         <h:outputLink class="btn btn-primary btn-sm" value="#{root}/pages/profile/profile.xhtml" style="margin-right: 4px;">
                             <i class="fa fa-user fa-lg"/>
                         </h:outputLink>

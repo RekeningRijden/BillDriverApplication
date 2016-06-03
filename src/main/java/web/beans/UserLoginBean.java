@@ -10,6 +10,7 @@ import main.core.communication.Communicator;
 import main.core.helper.PasswordGenerator;
 import main.domain.User;
 import main.service.UserService;
+import web.core.helpers.CookieHelper;
 import web.core.helpers.FrontendHelper;
 import web.core.helpers.RedirectHelper;
 
@@ -53,11 +54,13 @@ public class UserLoginBean implements Serializable {
                     e.printStackTrace();
                 }
                 RedirectHelper.redirect(to);
+                CookieHelper.setCookie("authentication",PasswordGenerator.generateRandomPassword(10),1000000);
             } else {
                 FrontendHelper.displayErrorSmallBox("Kan niet inloggen");
             }
         } else {
             RedirectHelper.redirect(to);
+            CookieHelper.setCookie("authentication",PasswordGenerator.generateRandomPassword(10),1000000);
         }
     }
 
