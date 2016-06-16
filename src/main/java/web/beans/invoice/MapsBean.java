@@ -1,29 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package web.beans.invoice;
 
 import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import main.core.communication.Communicator;
 import main.domain.Invoice;
 import main.domain.Position;
+
 import org.codehaus.jettison.json.JSONException;
+
+import main.service.InvoiceService;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
 
 /**
- *
  * @author maikel
  */
 @Named
@@ -31,7 +31,10 @@ import web.core.helpers.ContextHelper;
 public class MapsBean implements Serializable {
 
     @Inject
+    private InvoiceService invoiceService;
+    @Inject
     private UserInfoBean userInfoBean;
+
     private Invoice invoice;
     private Long invoiceId;
     private List<Position> positions;
@@ -39,10 +42,9 @@ public class MapsBean implements Serializable {
     public void init() {
         if (!ContextHelper.isAjaxRequest()) {
             try {
-                invoice = Communicator.getInvoice(userInfoBean.getLoggedInUser().getId(), invoiceId);
-                positions = new ArrayList<>();
+                invoice = invoiceService.retrieveInvoiceByUserAndId(userInfoBean.getLoggedInUser(), invoiceId);
                 Long cartrackerId = Communicator.getCartrackerId(userInfoBean.getLoggedInUser().getId(), invoiceId);
-                positions.addAll(Communicator.getPositions(cartrackerId));
+                positions = new ArrayList<>(Communicator.getPositions(cartrackerId));
             } catch (IOException | JSONException ex) {
                 Logger.getLogger(MapsBean.class.getName()).log(Level.SEVERE, null, ex);
             }
