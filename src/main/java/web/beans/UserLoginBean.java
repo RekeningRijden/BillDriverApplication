@@ -28,6 +28,9 @@ public class UserLoginBean implements Serializable {
 
     private String to = "/pages/dashboard.xhtml";
 
+    /**
+     * Create a default user/
+     */
     public void createDefault() {
         if (userService.getAll().isEmpty()) {
             User u = new User();
@@ -37,6 +40,9 @@ public class UserLoginBean implements Serializable {
         }
     }
 
+    /**
+     * Login and sets logged in user.
+     */
     public void login() {
         String typedUsername = username.toLowerCase();
 

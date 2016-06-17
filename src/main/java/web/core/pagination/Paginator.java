@@ -9,14 +9,6 @@ public abstract class Paginator {
     private int itemsPerPage = 15;
     private int dataListTotalSize;
 
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
     /**
      * Set current page to the first page.
      */
@@ -267,5 +259,13 @@ public abstract class Paginator {
 
     public void setItemsPerPage(int itemsPerPage) {
         this.itemsPerPage = itemsPerPage;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 }

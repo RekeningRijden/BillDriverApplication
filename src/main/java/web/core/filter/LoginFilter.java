@@ -34,6 +34,14 @@ public class LoginFilter implements Filter {
         // No implementation needed
     }
 
+    /**
+     * Checks if user is logged in at each request.
+     * @param request
+     * @param response
+     * @param chain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (userInfoBean == null || userInfoBean.getLoggedInUser() == null) {

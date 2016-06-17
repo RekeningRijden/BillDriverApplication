@@ -54,6 +54,9 @@ public class UserInfoBean implements Serializable {
         return loggedInUser.getUserGroup().getName().equals(groupName);
     }
 
+    /**
+     * Saves the logged in user into the system.
+     */
     public void save() {
         try {
             loggedInUser = userService.saveInSystems(loggedInUser);
@@ -64,6 +67,9 @@ public class UserInfoBean implements Serializable {
         }
     }
 
+    /**
+     * Changes the password of the user.
+     */
     public void changePassword() {
         if (loggedInUser.getPassword().equals(PasswordGenerator.encryptPassword(loggedInUser.getUsername(), this.oldPassword))) {
             if (this.newPassword.equals(this.repeatPassword)) {
