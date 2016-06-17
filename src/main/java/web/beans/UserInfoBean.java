@@ -3,9 +3,11 @@ package web.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -15,6 +17,7 @@ import main.domain.Ownership;
 import main.domain.User;
 import main.service.UserService;
 import web.core.helpers.FrontendHelper;
+import web.core.helpers.PropertiesHelper;
 import web.core.helpers.RedirectHelper;
 
 /**
@@ -40,6 +43,8 @@ public class UserInfoBean implements Serializable {
 
     private List<Ownership> ownerships = new ArrayList<>();
 
+    private Properties properties;
+
     public void logout() {
         loggedInUser = null;
         cars.clear();
@@ -55,27 +60,31 @@ public class UserInfoBean implements Serializable {
     }
 
     public void save() {
+        properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
+
         try {
             loggedInUser = userService.saveInSystems(loggedInUser);
-            FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
+            FrontendHelper.displaySuccessSmallBox(properties.getProperty("SAVED"));
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error: ", ex);
-            FrontendHelper.displayErrorSmallBox("Opslaan mislukt!");
+            FrontendHelper.displayErrorSmallBox(properties.getProperty("SOMETHING_WENT_WRONG"));
         }
     }
 
     public void changePassword() {
+        properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
+
         if (loggedInUser.getPassword().equals(PasswordGenerator.encryptPassword(loggedInUser.getUsername(), this.oldPassword))) {
             if (this.newPassword.equals(this.repeatPassword)) {
                 loggedInUser.setPassword(PasswordGenerator.encryptPassword(loggedInUser.getUsername(), this.newPassword));
                 userService.update(loggedInUser);
                 FrontendHelper.hideModal("newPasswordModal");
-                FrontendHelper.displaySuccessSmallBox("Wachtwoord is aangepast!");
+                FrontendHelper.displaySuccessSmallBox(properties.getProperty("PASSWORD_CHANGED"));
             } else {
-                FrontendHelper.displayErrorSmallBox("Wachtwoord komt niet overeen!");
+                FrontendHelper.displayErrorSmallBox(properties.getProperty("PASSWORDS_DONT_MATCH"));
             }
         } else {
-            FrontendHelper.displayErrorSmallBox("Oud wachtwoord onjuist!");
+            FrontendHelper.displayErrorSmallBox(properties.getProperty("WRONG_PASSWORD"));
         }
     }
 

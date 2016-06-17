@@ -26,7 +26,7 @@ public class PropertiesHelper {
      * @return Corresponding properties file.
      */
     public static Properties getProperties(FacesContext facesContext) {
-        Locale browserLocale = facesContext.getExternalContext().getRequestLocale();
+        Locale browserLocale = facesContext.getViewRoot().getLocale();
 
         try {
             Properties props = new Properties();

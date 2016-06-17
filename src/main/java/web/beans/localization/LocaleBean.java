@@ -4,7 +4,6 @@ import web.core.helpers.CookieHelper;
 
 import java.io.Serializable;
 import java.util.Locale;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.annotation.PostConstruct;
@@ -45,23 +44,23 @@ public class LocaleBean implements Serializable {
     /**
      * Set website locale to english
      */
-    public void SetEnglishLocale() {
+    public void setEnglishLocale() {
         locale = Locale.ENGLISH;
-        SetLocale();
+        setLocale();
     }
 
     /**
      * Set website locale to dutch
      */
-    public void SetDutchLocale() {
+    public void setDutchLocale() {
         locale = stringToLocale("nl");
-        SetLocale();
+        setLocale();
     }
 
     /**
      * Set website locale
      */
-    private void SetLocale() {
+    private void setLocale() {
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
 
         String localeString = localeToString(locale);

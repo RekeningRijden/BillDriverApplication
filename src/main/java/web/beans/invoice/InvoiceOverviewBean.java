@@ -3,9 +3,11 @@ package web.beans.invoice;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,6 +17,7 @@ import main.service.InvoiceService;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
 import web.core.helpers.FrontendHelper;
+import web.core.helpers.PropertiesHelper;
 import web.core.pagination.ListPaginator;
 
 /**
@@ -33,13 +36,17 @@ public class InvoiceOverviewBean implements Serializable {
 
     private transient ListPaginator<Invoice> invoicePaginator;
 
+    private Properties properties;
+
     public void init() {
         if (!ContextHelper.isAjaxRequest()) {
+            properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
+
             try {
                 invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser());
             } catch (IOException ex) {
                 Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
-                FrontendHelper.displayWarningSmallBox("Kon facturen niet ophalen");
+                FrontendHelper.displayWarningSmallBox(properties.getProperty("COULD_NOT_RETRIEVE_INVOICES"));
             }
         }
     }
@@ -53,10 +60,10 @@ public class InvoiceOverviewBean implements Serializable {
             invoiceService.save(invoice, userInfoBean.getLoggedInUser());
             invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser());
 
-            FrontendHelper.displaySuccessSmallBox("Saved");
+            FrontendHelper.displaySuccessSmallBox(properties.getProperty("SAVED"));
         } catch (Exception ex) {
             Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
-            FrontendHelper.displayWarningSmallBox("Something went wrong");
+            FrontendHelper.displayWarningSmallBox(properties.getProperty("SOMETHING_WENT_WRONG"));
         }
     }
 

@@ -2,6 +2,9 @@ package web.beans;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Properties;
+
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -12,6 +15,7 @@ import main.domain.User;
 import main.service.UserService;
 import web.core.helpers.CookieHelper;
 import web.core.helpers.FrontendHelper;
+import web.core.helpers.PropertiesHelper;
 import web.core.helpers.RedirectHelper;
 
 @Named
@@ -28,6 +32,8 @@ public class UserLoginBean implements Serializable {
 
     private String to = "/pages/dashboard.xhtml";
 
+    private Properties properties;
+
     public void createDefault() {
         if (userService.getAll().isEmpty()) {
             User u = new User();
@@ -38,6 +44,8 @@ public class UserLoginBean implements Serializable {
     }
 
     public void login() {
+        properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
+
         String typedUsername = username.toLowerCase();
 
         if (userInfoBean.getLoggedInUser() == null) {
@@ -56,7 +64,7 @@ public class UserLoginBean implements Serializable {
                 RedirectHelper.redirect(to);
                 CookieHelper.setCookie("authentication",PasswordGenerator.generateRandomPassword(10),1000000);
             } else {
-                FrontendHelper.displayErrorSmallBox("Kan niet inloggen");
+                FrontendHelper.displayErrorSmallBox(properties.getProperty("CANNOT_LOGIN"));
             }
         } else {
             RedirectHelper.redirect(to);
