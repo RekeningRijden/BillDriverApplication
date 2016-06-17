@@ -34,6 +34,9 @@ public class UserLoginBean implements Serializable {
 
     private Properties properties;
 
+    /**
+     * Create a default user/
+     */
     public void createDefault() {
         if (userService.getAll().isEmpty()) {
             User u = new User();
@@ -43,6 +46,9 @@ public class UserLoginBean implements Serializable {
         }
     }
 
+    /**
+     * Login and sets logged in user.
+     */
     public void login() {
         properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
 

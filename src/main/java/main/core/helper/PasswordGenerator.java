@@ -18,6 +18,11 @@ public class PasswordGenerator {
         // do nothing
     }
 
+    /**
+     * Generates an new random password.
+     * @param length of the password
+     * @return
+     */
     public static String generateRandomPassword(int length) {
         Random random = new Random();
         String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -29,6 +34,12 @@ public class PasswordGenerator {
         return new String(pass);
     }
 
+    /**
+     * Creates a encrypted password.
+     * @param username of the user
+     * @param password of the user
+     * @return the encrypted password.
+     */
     public static String encryptPassword(String username, String password) {
         String saltedPassword = saltPassword(username, password);
 
@@ -44,6 +55,12 @@ public class PasswordGenerator {
         return password;
     }
 
+    /**
+     * Creates a salted password.
+     * @param username of the user
+     * @param password of the user
+     * @return the salted password.
+     */
     private static String saltPassword(String username, String password) {
         return "nB*R#*&^TG&B^*FGVwskjdfUV@"
                 + username

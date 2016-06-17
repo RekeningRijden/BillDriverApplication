@@ -17,6 +17,11 @@ public final class RedirectHelper {
         redirect(relativeUrl, true);
     }
 
+    /**
+     * Helps user to redirect to a certain page.
+     * @param relativeUrl
+     * @param appendRelativeUrl
+     */
     private static void redirect(String relativeUrl, boolean appendRelativeUrl) {
         try {
             String url = appendRelativeUrl ? ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getContextPath()

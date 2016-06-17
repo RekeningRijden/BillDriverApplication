@@ -59,6 +59,9 @@ public class UserInfoBean implements Serializable {
         return loggedInUser.getUserGroup().getName().equals(groupName);
     }
 
+    /**
+     * Saves the logged in user into the system.
+     */
     public void save() {
         properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
 
@@ -71,6 +74,9 @@ public class UserInfoBean implements Serializable {
         }
     }
 
+    /**
+     * Changes the password of the user.
+     */
     public void changePassword() {
         properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
 
