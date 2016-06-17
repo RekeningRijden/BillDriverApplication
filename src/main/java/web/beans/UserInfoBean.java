@@ -1,6 +1,5 @@
 package web.beans;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import main.core.communication.Communicator;
 import main.core.helper.PasswordGenerator;
 import main.domain.Car;
 import main.domain.Ownership;
@@ -58,12 +56,7 @@ public class UserInfoBean implements Serializable {
 
     public void save() {
         try {
-            boolean subscribed = loggedInUser.getDriver().getSubscribedToTrafficInfo();
-            loggedInUser.setDriver(Communicator.updateUser(loggedInUser.getDriver()));
-            loggedInUser.getDriver().setSubscribedToTrafficInfo(subscribed);
-            loggedInUser = userService.update(loggedInUser);
-            loggedInUser.setDriver(Communicator.getDriver(loggedInUser.getId()));
-            loggedInUser.getDriver().setSubscribedToTrafficInfo(subscribed);
+            loggedInUser = userService.saveInSystems(loggedInUser);
             FrontendHelper.displaySuccessSmallBox("Succesvol opgeslagen!");
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error: ", ex);

@@ -6,17 +6,20 @@
 package main.service;
 
 import java.io.Serializable;
+
 import javax.ejb.Stateless;
+
+import main.core.communication.Communicator;
 import main.core.helper.PasswordGenerator;
 import main.dao.UserDao;
 import main.domain.User;
+import web.core.helpers.FrontendHelper;
 
 /**
- *
  * @author maikel
  */
 @Stateless
-public class UserService extends UserDao implements Serializable{
+public class UserService extends UserDao implements Serializable {
 
     @Override
     protected Class<User> getEntityClass() {
@@ -25,7 +28,24 @@ public class UserService extends UserDao implements Serializable{
 
     @Override
     public User getUserByCredentials(String username, String password) {
-         return super.getUserByCredentials(username, PasswordGenerator.encryptPassword(username, password));
+        return super.getUserByCredentials(username, PasswordGenerator.encryptPassword(username, password));
     }
-    
+
+    /**
+     * Update a User in this system and the Driver in the AdministrationSystem.
+     *
+     * @param user to update.
+     * @return the updated User.
+     * @throws Exception when something went wrong with the communication with the AdministrationSystem.
+     */
+    public User saveInSystems(User user) throws Exception {
+        boolean subscribed = user.getDriver().getSubscribedToTrafficInfo();
+        user.setDriver(Communicator.updateUser(user.getDriver()));
+        user.getDriver().setSubscribedToTrafficInfo(subscribed);
+        user = update(user);
+        user.setDriver(Communicator.getDriver(user.getId()));
+        user.getDriver().setSubscribedToTrafficInfo(subscribed);
+
+        return user;
+    }
 }

@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import main.core.communication.Communicator;
 
 import main.domain.Invoice;
+import main.service.InvoiceService;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
 import web.core.helpers.FrontendHelper;
@@ -26,6 +26,9 @@ public class InvoiceOverviewBean implements Serializable {
 
     @Inject
     private UserInfoBean userInfoBean;
+    @Inject
+    private InvoiceService invoiceService;
+
     private Invoice invoice;
 
     private transient ListPaginator<Invoice> invoicePaginator;
@@ -33,11 +36,11 @@ public class InvoiceOverviewBean implements Serializable {
     public void init() {
         if (!ContextHelper.isAjaxRequest()) {
             try {
-                invoicePaginator = new ListPaginator<>(Communicator.getAllInvoices(userInfoBean.getLoggedInUser().getId()));
+                invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser());
             } catch (IOException ex) {
                 Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
+                FrontendHelper.displayWarningSmallBox("Kon facturen niet ophalen");
             }
-            invoicePaginator.setItemsPerPage(15);
         }
     }
 
@@ -47,10 +50,10 @@ public class InvoiceOverviewBean implements Serializable {
      */
     public void save() {
         try {
-            Communicator.updateInvoice(userInfoBean.getLoggedInUser().getId(), invoice);
+            invoiceService.save(invoice, userInfoBean.getLoggedInUser());
+            invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser());
+
             FrontendHelper.displaySuccessSmallBox("Saved");
-            invoicePaginator = new ListPaginator<>(Communicator.getAllInvoices(userInfoBean.getLoggedInUser().getId()));
-            invoicePaginator.setItemsPerPage(15);
         } catch (Exception ex) {
             Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
             FrontendHelper.displayWarningSmallBox("Something went wrong");
@@ -65,7 +68,6 @@ public class InvoiceOverviewBean implements Serializable {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
-    //</editor-fold>
 
     public ListPaginator<Invoice> getInvoicePaginator() {
         return invoicePaginator;
@@ -78,4 +80,5 @@ public class InvoiceOverviewBean implements Serializable {
     public List<Invoice> getInvoices() {
         return invoicePaginator.toPaginatedList();
     }
+    //</editor-fold>
 }

@@ -1,26 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package web.beans.invoice;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import main.core.communication.Communicator;
+
 import main.domain.Invoice;
 import main.domain.enums.PaymentStatus;
+import main.service.InvoiceService;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
 import web.core.helpers.RedirectHelper;
 
 /**
- *
  * @author maikel
  */
 @Named
@@ -28,7 +23,10 @@ import web.core.helpers.RedirectHelper;
 public class SuccessBean implements Serializable {
 
     @Inject
+    private InvoiceService invoiceService;
+    @Inject
     private UserInfoBean userInfoBean;
+
     private Long invoiceId;
     private Invoice invoice;
     private boolean canUpdateStatus = false;
@@ -37,9 +35,9 @@ public class SuccessBean implements Serializable {
         if (!ContextHelper.isAjaxRequest()) {
             if (canUpdateStatus) {
                 try {
-                    invoice = Communicator.getInvoice(userInfoBean.getLoggedInUser().getId(), invoiceId);
+                    invoice = invoiceService.retrieveInvoiceByUserAndId(userInfoBean.getLoggedInUser(), invoiceId);
                     invoice.setPaymentStatus(PaymentStatus.PAID);
-                    Communicator.updateInvoice(userInfoBean.getLoggedInUser().getId(), invoice);
+                    invoiceService.save(invoice, userInfoBean.getLoggedInUser());
                     canUpdateStatus = false;
                 } catch (Exception ex) {
                     Logger.getLogger(SuccessBean.class.getName()).log(Level.SEVERE, null, ex);
