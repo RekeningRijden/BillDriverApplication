@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import main.domain.Invoice;
-import main.domain.enums.PaymentStatus;
 import main.service.InvoiceService;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
@@ -35,9 +34,7 @@ public class SuccessBean implements Serializable {
         if (!ContextHelper.isAjaxRequest()) {
             if (canUpdateStatus) {
                 try {
-                    invoice = invoiceService.retrieveInvoiceByUserAndId(userInfoBean.getLoggedInUser(), invoiceId);
-                    invoice.setPaymentStatus(PaymentStatus.PAID);
-                    invoiceService.save(invoice, userInfoBean.getLoggedInUser());
+                    invoice = invoiceService.setInvoiceStatusPaid(userInfoBean.getLoggedInUser(), invoiceId);
                     canUpdateStatus = false;
                 } catch (Exception ex) {
                     Logger.getLogger(SuccessBean.class.getName()).log(Level.SEVERE, null, ex);

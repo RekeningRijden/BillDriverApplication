@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import main.core.communication.Communicator;
 import main.domain.Invoice;
 import main.domain.User;
+import main.domain.enums.PaymentStatus;
 import web.core.pagination.ListPaginator;
 
 /**
@@ -37,7 +38,8 @@ public class InvoiceService implements Serializable {
     /**
      * Retrieve an Invoice belonging to a User by it's id.
      * This invoice is retrieved using a REST-call to the AdministrationSystem.
-     * @param user the invoice belongs to.
+     *
+     * @param user      the invoice belongs to.
      * @param invoiceId to find the invoice with.
      * @return the retrieved invoice
      * @throws IOException when something went wrong with the REST-call.
@@ -55,7 +57,24 @@ public class InvoiceService implements Serializable {
      * @throws IOException   when something went wrong with the REST-call.
      * @throws JSONException when something went wrong decrypting the REST-call JSON response.
      */
-    public void save(Invoice invoice, User user) throws IOException, JSONException {
+    public void update(Invoice invoice, User user) throws IOException, JSONException {
         Communicator.updateInvoice(user.getId(), invoice);
+    }
+
+    /**
+     * Retrieves the Invoice belonging to the given User by the given Id.
+     * Sets the Invoice status to PAID and updates the Invoice.
+     *
+     * @param user      the invoice belongs to.
+     * @param invoiceId to get the Invoice by.
+     * @throws IOException   when something went wrong with the REST-call.
+     * @throws JSONException when something went wrong decrypting the REST-call JSON response.
+     */
+    public Invoice setInvoiceStatusPaid(User user, Long invoiceId) throws Exception {
+        Invoice invoice = retrieveInvoiceByUserAndId(user, invoiceId);
+        invoice.setPaymentStatus(PaymentStatus.PAID);
+        update(invoice, user);
+
+        return invoice;
     }
 }

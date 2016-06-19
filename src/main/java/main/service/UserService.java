@@ -32,6 +32,21 @@ public class UserService extends UserDao implements Serializable {
     }
 
     /**
+     * Register a new User in the system. This method is called from a REST-POST call with a User who hasn't been persisted yet.
+     *
+     * @param user to register.
+     * @return the registered User.
+     */
+    public User registerUser(User user) {
+        String password = PasswordGenerator.encryptPassword(user.getEmail(), user.getEmail().substring(0, user.getEmail().indexOf("@")));
+
+        user.setUsername(user.getEmail());
+        user.setPassword(password);
+
+        return create(user);
+    }
+
+    /**
      * Update a User in this system and the Driver in the AdministrationSystem.
      *
      * @param user to update.

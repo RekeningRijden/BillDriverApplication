@@ -57,7 +57,7 @@ public class InvoiceOverviewBean implements Serializable {
      */
     public void save() {
         try {
-            invoiceService.save(invoice, userInfoBean.getLoggedInUser());
+            invoiceService.update(invoice, userInfoBean.getLoggedInUser());
             invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser());
 
             FrontendHelper.displaySuccessSmallBox(properties.getProperty("SAVED"));
