@@ -1,18 +1,13 @@
 package web.core.helpers;
 
-import javax.faces.context.FacesContext;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.faces.context.FacesContext;
 
 /**
  * Created by martijn on 3-6-2016.
@@ -53,7 +48,7 @@ public class PropertiesHelper {
                 return null;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(PropertiesHelper.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }

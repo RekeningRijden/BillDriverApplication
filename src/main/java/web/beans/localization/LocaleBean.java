@@ -18,7 +18,9 @@ import javax.servlet.http.Cookie;
 @Named
 @SessionScoped
 public class LocaleBean implements Serializable {
-    private final int cookieExpiration = 1209600;
+    private static final int COOKIE_EXPIRATION = 1209600;
+    private static final String LOCALE = "locale";
+
     private Locale locale;
 
     /**
@@ -27,13 +29,13 @@ public class LocaleBean implements Serializable {
     @PostConstruct
     public void init() {
         String localeString;
-        Cookie localeCookie = CookieHelper.getCookie("locale");
+        Cookie localeCookie = CookieHelper.getCookie(LOCALE);
         if (localeCookie != null) {
             localeString = localeCookie.getValue();
             localeString = localeString.substring(0, 2);
         } else {
             localeString = "en";
-            CookieHelper.setCookie("locale", localeString, cookieExpiration);
+            CookieHelper.setCookie(LOCALE, localeString, COOKIE_EXPIRATION);
         }
 
         locale = stringToLocale(localeString);
@@ -64,21 +66,23 @@ public class LocaleBean implements Serializable {
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
 
         String localeString = localeToString(locale);
-        CookieHelper.deleteCookie("locale");
-        CookieHelper.setCookie("locale", localeString, cookieExpiration);
+        CookieHelper.deleteCookie(LOCALE);
+        CookieHelper.setCookie(LOCALE, localeString, COOKIE_EXPIRATION);
     }
 
     /**
      * Convert a locale to its ISO string value
+     *
      * @param l locale to convert
      * @return ISO string value
      */
-    private String localeToString(Locale l) {
+    private static String localeToString(Locale l) {
         return l.getLanguage() + "," + l.getCountry();
     }
 
     /**
      * Convert ISO string value to java locale
+     *
      * @param s string to convert
      * @return java locale
      */

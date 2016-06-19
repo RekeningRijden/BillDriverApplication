@@ -13,7 +13,6 @@ import main.core.communication.Communicator;
 import main.core.helper.PasswordGenerator;
 import main.dao.UserDao;
 import main.domain.User;
-import web.core.helpers.FrontendHelper;
 
 /**
  * @author maikel

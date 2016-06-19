@@ -1,16 +1,13 @@
 package web.beans;
 
-import web.core.helpers.ContextHelper;
-import web.core.helpers.FrontendHelper;
-import web.core.helpers.PropertiesHelper;
+import java.io.Serializable;
 
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import java.io.Serializable;
-import java.util.Properties;
+import web.core.helpers.ContextHelper;
+import web.core.helpers.FrontendHelper;
 
 /**
  * Created by martijn on 30-5-2016.

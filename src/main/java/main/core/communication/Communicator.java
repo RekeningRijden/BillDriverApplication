@@ -4,33 +4,41 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import main.domain.*;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.protocol.HTTP;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-import org.omg.CORBA.DynAnyPackage.Invalid;
-
 import main.core.exception.CommunicationException;
+import main.domain.Car;
+import main.domain.Driver;
+import main.domain.Invoice;
+import main.domain.Ownership;
+import main.domain.Position;
+import main.domain.TrackingPeriod;
 
 /**
  * @author Sam
  */
-public class Communicator {
+public final class Communicator {
+
+    private Communicator() {
+        //Utility class constructor cannot be called.
+    }
 
     /**
      * The test url of the Movementsystem api.
@@ -48,7 +56,7 @@ public class Communicator {
      * @param id
      * @return All known cartrackers
      * @throws IOException When trying to execute the http request or converts
-     * the response to a String
+     *                     the response to a String
      */
     public static List<Invoice> getAllInvoices(Long id) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
@@ -56,7 +64,7 @@ public class Communicator {
         HttpResponse response = httpClient.execute(get);
         checkResponse(response);
 
-        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         return gson.fromJson(responseString, new TypeToken<List<Invoice>>() {
         }.getType());
@@ -76,7 +84,7 @@ public class Communicator {
         HttpResponse response = httpClient.execute(get);
         checkResponse(response);
 
-        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         System.out.println("response: " + responseString);
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         return gson.fromJson(responseString, Invoice.class);
@@ -95,7 +103,7 @@ public class Communicator {
         HttpResponse response = httpClient.execute(get);
         checkResponse(response);
 
-        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         System.out.println("response: " + responseString);
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         return gson.fromJson(responseString, Driver.class);
@@ -134,7 +142,7 @@ public class Communicator {
                     c.getPastOwnerships().add(o);
                 }
                 cars.add(c);
-            } 
+            }
         }
         return cars;
     }
@@ -154,7 +162,7 @@ public class Communicator {
         HttpPut post = new HttpPut(BASE_URL_PRODUCTION + userId + "/invoices/" + invoice.getId());
 
         String jsonBody = gson.toJson(invoice);
-        StringEntity postingString = new StringEntity(jsonBody, "UTF-8");
+        StringEntity postingString = new StringEntity(jsonBody, StandardCharsets.UTF_8);
         System.out.println(jsonBody);
         post.setEntity(postingString);
         post.setHeader(HTTP.CONTENT_TYPE, "application/json");
@@ -163,7 +171,7 @@ public class Communicator {
         checkResponse(response);
 
         //Response
-        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         JSONObject json = new JSONObject(responseString);
         System.out.println("JSON Response: " + json);
         return json.getLong("id");
@@ -171,6 +179,7 @@ public class Communicator {
 
     /**
      * Update a user
+     *
      * @param user
      * @return
      * @throws IOException
@@ -182,7 +191,7 @@ public class Communicator {
         HttpPost post = new HttpPost(BASE_URL_PRODUCTION + user.getId());
 
         String jsonBody = gson.toJson(user);
-        StringEntity postingString = new StringEntity(jsonBody, "UTF-8");
+        StringEntity postingString = new StringEntity(jsonBody, StandardCharsets.UTF_8);
         System.out.println(jsonBody);
         post.setEntity(postingString);
         post.setHeader(HTTP.CONTENT_TYPE, "application/json");
@@ -191,7 +200,7 @@ public class Communicator {
         checkResponse(response);
 
         //Response
-        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         return gson.fromJson(responseString, Driver.class);
     }
@@ -211,7 +220,7 @@ public class Communicator {
         HttpResponse response = httpClient.execute(get);
         checkResponse(response);
 
-        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         JSONObject json = new JSONObject(responseString);
         System.out.println("JSON Response: " + json);
         return json.getLong("cartrackerId");
@@ -232,7 +241,7 @@ public class Communicator {
         checkResponse(response);
 
         List<Position> positions = new ArrayList<>();
-        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         List<TrackingPeriod> periods = gson.fromJson(responseString, new TypeToken<List<TrackingPeriod>>() {
         }.getType());
@@ -249,7 +258,7 @@ public class Communicator {
         HttpResponse response = httpClient.execute(get);
         checkResponse(response);
 
-        String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         System.out.println("response: " + responseString);
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         return gson.fromJson(responseString, new TypeToken<List<Ownership>>() {

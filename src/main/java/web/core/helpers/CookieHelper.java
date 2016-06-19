@@ -8,7 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by martijn on 3-6-2016.
  */
-public class CookieHelper {
+public final class CookieHelper {
+
+    private CookieHelper() {
+        // Utility class constructor cannot be called
+    }
 
     /**
      * Set a cookie
@@ -92,7 +96,7 @@ public class CookieHelper {
             }
         }
 
-        if(cookie != null) {
+        if (cookie != null) {
             cookie.setValue(null);
             cookie.setPath(request.getContextPath());
             cookie.setMaxAge(0);

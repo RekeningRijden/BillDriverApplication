@@ -3,6 +3,8 @@ package web.beans;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -65,7 +67,7 @@ public class UserLoginBean implements Serializable {
                     userInfoBean.getCars().addAll(Communicator.getCars(user.getId()));
                     userInfoBean.getOwnerships().addAll(Communicator.getOwnerships(user.getId()));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.getLogger(UserLoginBean.class.getName()).log(Level.SEVERE, null, e);
                 }
                 RedirectHelper.redirect(to);
                 CookieHelper.setCookie("authentication",PasswordGenerator.generateRandomPassword(10),1000000);

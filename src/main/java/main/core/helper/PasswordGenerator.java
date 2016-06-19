@@ -1,12 +1,14 @@
 package main.core.helper;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import main.domain.User;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  *
