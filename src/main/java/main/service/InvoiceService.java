@@ -4,6 +4,7 @@ import org.codehaus.jettison.json.JSONException;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateless;
 
@@ -28,11 +29,8 @@ public class InvoiceService implements Serializable {
      * @return an listPaginator containing the Invoices.
      * @throws IOException when something goes wrong with the REST-call.
      */
-    public ListPaginator<Invoice> retrieveInvoicesByUser(User user) throws IOException {
-        ListPaginator<Invoice> invoicePaginator = new ListPaginator<>(Communicator.getAllInvoices(user.getId()));
-        invoicePaginator.setItemsPerPage(15);
-
-        return invoicePaginator;
+    public List<Invoice> retrieveInvoicesByUser(User user, int pageIndex, int pageSize) throws IOException {
+        return Communicator.getAllInvoices(user.getId(), pageIndex, pageSize);
     }
 
     /**
