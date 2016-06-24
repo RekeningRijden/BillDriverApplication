@@ -20,7 +20,13 @@ import org.codehaus.jettison.json.JSONObject;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import main.core.exception.CommunicationException;
@@ -58,9 +64,9 @@ public final class Communicator {
      * @throws IOException When trying to execute the http request or converts
      *                     the response to a String
      */
-    public static List<Invoice> getAllInvoices(Long id) throws IOException {
+    public static List<Invoice> getAllInvoices(Long id, int pageIndex, int pageSize) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + id + "/invoices");
+        HttpGet get = new HttpGet(BASE_URL_PRODUCTION + id + "/invoices?pageIndex=" + pageIndex + "&pageSize=" + pageSize);
         HttpResponse response = httpClient.execute(get);
         checkResponse(response);
 
@@ -234,9 +240,19 @@ public final class Communicator {
      * @throws IOException
      * @throws org.codehaus.jettison.json.JSONException
      */
-    public static List<Position> getPositions(Long id) throws IOException, JSONException {
+    public static List<Position> getPositions(Long id, Date date) throws IOException, JSONException {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        SimpleDateFormat formatter = new SimpleDateFormat();
+        String temp = formatter.format(date);
+
+        String startDate = "01-" + temp.substring(2);
+        String endDate = c.get(Calendar.DAY_OF_MONTH) + "-" + temp.substring(2);
+
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet("http://movement.s63a.marijn.ws/api/trackers/" + id + "/movements");
+        HttpGet get = new HttpGet("http://movement.s63a.marijn.ws/api/trackers/" + id + "/movements?startDate=" + startDate + "&endDate" + endDate);
         HttpResponse response = httpClient.execute(get);
         checkResponse(response);
 

@@ -18,14 +18,14 @@ import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
 import web.core.helpers.FrontendHelper;
 import web.core.helpers.PropertiesHelper;
-import web.core.pagination.ListPaginator;
+import web.core.pagination.Paginator;
 
 /**
  * @author Sam
  */
 @Named
 @ViewScoped
-public class InvoiceOverviewBean implements Serializable {
+public class InvoiceOverviewBean extends Paginator implements Serializable {
 
     @Inject
     private UserInfoBean userInfoBean;
@@ -34,20 +34,16 @@ public class InvoiceOverviewBean implements Serializable {
 
     private Invoice invoice;
 
-    private transient ListPaginator<Invoice> invoicePaginator;
+    private transient List<Invoice> invoices;
 
     private Properties properties;
 
     public void init() {
         if (!ContextHelper.isAjaxRequest()) {
+            setItemsPerPage(15);
             properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
 
-            try {
-                invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser());
-            } catch (IOException ex) {
-                Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
-                FrontendHelper.displayWarningSmallBox(properties.getProperty("COULD_NOT_RETRIEVE_INVOICES"));
-            }
+            refreshList();
         }
     }
 
@@ -58,7 +54,7 @@ public class InvoiceOverviewBean implements Serializable {
     public void save() {
         try {
             invoiceService.update(invoice, userInfoBean.getLoggedInUser());
-            invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser());
+            refreshList();
 
             FrontendHelper.displaySuccessSmallBox(properties.getProperty("SAVED"));
         } catch (Exception ex) {
@@ -76,16 +72,69 @@ public class InvoiceOverviewBean implements Serializable {
         this.invoice = invoice;
     }
 
-    public ListPaginator<Invoice> getInvoicePaginator() {
-        return invoicePaginator;
-    }
-
-    public void setInvoicePaginator(ListPaginator<Invoice> invoicePaginator) {
-        this.invoicePaginator = invoicePaginator;
-    }
-
     public List<Invoice> getInvoices() {
-        return invoicePaginator.toPaginatedList();
+        return invoices;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
     //</editor-fold>
+
+    private void refreshList() {
+        try {
+            invoices = invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser(), getStartIndex(), getItemsPerPage());
+        } catch (IOException ex) {
+            Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
+            FrontendHelper.displayWarningSmallBox(properties.getProperty("COULD_NOT_RETRIEVE_INVOICES"));
+        }
+    }
+
+    @Override
+    public void beforePreviousPage() {
+        super.beforePreviousPage();
+        refreshList();
+    }
+
+    @Override
+    public void previousPage() {
+        super.previousPage();
+        refreshList();
+    }
+
+    @Override
+    public void currentPage() {
+        super.currentPage();
+        refreshList();
+    }
+
+    @Override
+    public void nextPage() {
+        super.nextPage();
+        refreshList();
+    }
+
+    @Override
+    public void afterNextPage() {
+        super.afterNextPage();
+        refreshList();
+    }
+
+    @Override
+    public void firstPage() {
+        super.firstPage();
+        refreshList();
+    }
+
+    @Override
+    public void lastPage() {
+        super.lastPage();
+        refreshList();
+    }
+
+    @Override
+    public void setItemsPerPage(int itemsPerPage) {
+        super.setItemsPerPage(itemsPerPage);
+        refreshList();
+    }
 }

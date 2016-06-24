@@ -2,6 +2,8 @@ package web.beans.invoice;
 
 import com.google.gson.Gson;
 
+import org.codehaus.jettison.json.JSONException;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,9 +18,6 @@ import javax.inject.Named;
 import main.core.communication.Communicator;
 import main.domain.Invoice;
 import main.domain.Position;
-
-import org.codehaus.jettison.json.JSONException;
-
 import main.service.InvoiceService;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
@@ -41,10 +40,11 @@ public class MapsBean implements Serializable {
 
     public void init() {
         if (!ContextHelper.isAjaxRequest()) {
+
             try {
                 invoice = invoiceService.retrieveInvoiceByUserAndId(userInfoBean.getLoggedInUser(), invoiceId);
                 Long cartrackerId = Communicator.getCartrackerId(userInfoBean.getLoggedInUser().getId(), invoiceId);
-                positions = new ArrayList<>(Communicator.getPositions(cartrackerId));
+                positions = new ArrayList<>(Communicator.getPositions(cartrackerId, invoice.getPeriod()));
             } catch (IOException | JSONException ex) {
                 Logger.getLogger(MapsBean.class.getName()).log(Level.SEVERE, null, ex);
             }
