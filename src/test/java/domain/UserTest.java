@@ -29,7 +29,7 @@ public class UserTest {
 
         /* Password */
         user.setPassword("Password");
-        assertSame("Password", user.getUsername());
+        assertSame("Password", user.getPassword());
 
         /* Email */
         user.setEmail("test@test.nl");

@@ -4,6 +4,7 @@ import main.domain.Rate;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.junit.Assert.*;
 
@@ -25,15 +26,15 @@ public class RateTest {
         assertSame("A", rate.getName());
 
         /* Value */
-        rate.setValue(BigDecimal.valueOf(1));
-        assertSame(BigDecimal.valueOf(1), rate.getValue());
+        rate.setValue(BigDecimal.ONE);
+        assertEquals(BigDecimal.ONE.setScale(2, RoundingMode.CEILING), rate.getValue());
     }
 
     @Test
     public void testConstructor() {
         Rate rate = new Rate("A");
 
-        assertSame(BigDecimal.ZERO, rate.getValue());
+        assertSame(BigDecimal.ZERO.setScale(2, RoundingMode.CEILING), rate.getValue());
         assertSame("A", rate.getName());
     }
 }
