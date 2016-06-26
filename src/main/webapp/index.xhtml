@@ -97,7 +97,9 @@
                 var key = e.keyCode ? e.keyCode : e.which;
 
                 if (key === 13) {
-                    document.getElementById("form:login-btn").click();
+                    if (document.activeElement === null) {
+                        document.getElementById("form:login-btn").click();
+                    }
                 }
             };
         </script>

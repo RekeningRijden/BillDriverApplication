@@ -68,6 +68,7 @@ public class UserLoginBean implements Serializable {
                     userInfoBean.getOwnerships().addAll(Communicator.getOwnerships(user.getId()));
                 } catch (IOException e) {
                     Logger.getLogger(UserLoginBean.class.getName()).log(Level.SEVERE, null, e);
+                    FrontendHelper.displayErrorSmallBox(properties.getProperty("CANNOT_LOGIN"));
                 }
                 RedirectHelper.redirect(to);
                 CookieHelper.setCookie("authentication",PasswordGenerator.generateRandomPassword(10),1000000);

@@ -245,14 +245,14 @@ public final class Communicator {
         c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-        SimpleDateFormat formatter = new SimpleDateFormat();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String temp = formatter.format(date);
 
-        String startDate = "01-" + temp.substring(2);
-        String endDate = c.get(Calendar.DAY_OF_MONTH) + "-" + temp.substring(2);
+        String startDate = temp.substring(0, temp.length() - 2) + "01";
+        String endDate = temp.substring(0, temp.length() - 2) + c.get(Calendar.DAY_OF_MONTH);
 
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet("http://movement.s63a.marijn.ws/api/trackers/" + id + "/movements?startDate=" + startDate + "&endDate" + endDate);
+        HttpGet get = new HttpGet("http://movement.s63a.marijn.ws/api/trackers/" + id + "/movements/_byperiod?startDate=" + startDate + "&endDate" + endDate);
         HttpResponse response = httpClient.execute(get);
         checkResponse(response);
 
