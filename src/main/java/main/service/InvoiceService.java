@@ -12,6 +12,7 @@ import main.core.communication.Communicator;
 import main.domain.Invoice;
 import main.domain.User;
 import main.domain.enums.PaymentStatus;
+import main.pagination.InvoicePagination;
 import web.core.pagination.ListPaginator;
 
 /**
@@ -29,7 +30,7 @@ public class InvoiceService implements Serializable {
      * @return an listPaginator containing the Invoices.
      * @throws IOException when something goes wrong with the REST-call.
      */
-    public List<Invoice> retrieveInvoicesByUser(User user, int pageIndex, int pageSize) throws IOException {
+    public InvoicePagination retrieveInvoicesByUser(User user, int pageIndex, int pageSize) throws IOException {
         return Communicator.getAllInvoices(user.getId(), pageIndex, pageSize);
     }
 

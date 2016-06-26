@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import main.domain.Invoice;
+import main.pagination.InvoicePagination;
 import main.service.InvoiceService;
 import web.beans.UserInfoBean;
 import web.core.helpers.ContextHelper;
@@ -40,9 +41,9 @@ public class InvoiceOverviewBean extends Paginator implements Serializable {
 
     public void init() {
         if (!ContextHelper.isAjaxRequest()) {
-            setItemsPerPage(15);
             properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
 
+            super.setItemsPerPage(15);
             refreshList();
         }
     }
@@ -83,7 +84,9 @@ public class InvoiceOverviewBean extends Paginator implements Serializable {
 
     private void refreshList() {
         try {
-            invoices = invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser(), getStartIndex(), getItemsPerPage());
+            InvoicePagination invoicePagination = invoiceService.retrieveInvoicesByUser(userInfoBean.getLoggedInUser(), getCurrentPage() - 1, getItemsPerPage());
+            invoices = invoicePagination.getItems();
+            setDataListTotalSize(invoicePagination.getTotalCount());
         } catch (IOException ex) {
             Logger.getLogger(InvoiceOverviewBean.class.getName()).log(Level.SEVERE, null, ex);
             FrontendHelper.displayWarningSmallBox(properties.getProperty("COULD_NOT_RETRIEVE_INVOICES"));

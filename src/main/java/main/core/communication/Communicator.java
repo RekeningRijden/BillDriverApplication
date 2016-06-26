@@ -36,6 +36,7 @@ import main.domain.Invoice;
 import main.domain.Ownership;
 import main.domain.Position;
 import main.domain.TrackingPeriod;
+import main.pagination.InvoicePagination;
 
 /**
  * @author Sam
@@ -64,7 +65,7 @@ public final class Communicator {
      * @throws IOException When trying to execute the http request or converts
      *                     the response to a String
      */
-    public static List<Invoice> getAllInvoices(Long id, int pageIndex, int pageSize) throws IOException {
+    public static InvoicePagination getAllInvoices(Long id, int pageIndex, int pageSize) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet get = new HttpGet(BASE_URL_PRODUCTION + id + "/invoices?pageIndex=" + pageIndex + "&pageSize=" + pageSize);
         HttpResponse response = httpClient.execute(get);
@@ -72,7 +73,7 @@ public final class Communicator {
 
         String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-        return gson.fromJson(responseString, new TypeToken<List<Invoice>>() {
+        return gson.fromJson(responseString, new TypeToken<InvoicePagination>() {
         }.getType());
     }
 
