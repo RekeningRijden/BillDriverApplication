@@ -45,6 +45,10 @@ public class UserInfoBean implements Serializable {
 
     private Properties properties;
 
+    public void init(){
+        properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
+    }
+
     public void logout() {
         loggedInUser = null;
         cars.clear();

@@ -2,17 +2,19 @@ package web.core.helpers;
 
 import org.primefaces.context.RequestContext;
 
+import javax.faces.context.FacesContext;
+
 /**
  * @author Sam
- * <p>
- * Helper class providing methods for communicating with the front-end.
- * </p>
+ *         <p>
+ *         Helper class providing methods for communicating with the front-end.
+ *         </p>
  */
 public final class FrontendHelper {
 
     private static final String JQUERY_BEGIN = "$(\"#";
     private static final String JQUERY_END = "\")";
-    
+
     private FrontendHelper() {
         // Utility class constructor cannot be called
     }
@@ -20,12 +22,12 @@ public final class FrontendHelper {
     /**
      * Display a smallbox in the upper right corner of the screen.
      *
-     * @param title of the smallbox.
+     * @param title       of the smallbox.
      * @param description of the smallbox.
      * @param contentIcon placed in the bottom right corner of the smallbox
-     * alongside the content.
-     * @param smallIcon placed in the bottom left corner of the smallbox.
-     * @param color of the smallbox body.
+     *                    alongside the content.
+     * @param smallIcon   placed in the bottom left corner of the smallbox.
+     * @param color       of the smallbox body.
      */
     private static void displaySmallBox(String title, String description, String contentIcon, String smallIcon, String color) {
         StringBuilder sb = new StringBuilder();
@@ -80,17 +82,18 @@ public final class FrontendHelper {
     }
 
     public static void displaySmallBoxWithColor(String title, String color) {
-        displaySmallBox(title, "Zojuist", "fa fa-clock", "fa fa-remove", color);
+        String subTitle = PropertiesHelper.getProperties(FacesContext.getCurrentInstance()).getProperty("ONE_SEC_AGO");
+        displaySmallBox(title, subTitle, "fa fa-clock", "fa fa-remove", color);
     }
-    
+
     /**
      * Display a bigbox in the bottom right corner of the screen.
      *
-     * @param title of the bigbox.
+     * @param title       of the bigbox.
      * @param description of the bigbox.
      * @param contentIcon placed in the bottom right corner of the bigbox
-     * alongside the content.
-     * @param color of the bigbox body.
+     *                    alongside the content.
+     * @param color       of the bigbox body.
      */
     private static void displayBigBox(String title, String description, String contentIcon, String color) {
         StringBuilder sb = new StringBuilder();
@@ -108,7 +111,7 @@ public final class FrontendHelper {
      * Display a bigbox with primary color in the bottom right corner of the
      * screen.
      *
-     * @param title of the bigbox
+     * @param title       of the bigbox
      * @param description of the bigbox
      */
     public static void displayPrimaryBigBox(String title, String description) {
@@ -134,7 +137,7 @@ public final class FrontendHelper {
         String executable = getJQueryPrefix(modalName) + ".modal(\"hide\");";
         RequestContext.getCurrentInstance().execute(executable);
     }
-    
+
     public static String getJQueryPrefix(String selector) {
         return JQUERY_BEGIN + selector + JQUERY_END;
     }
@@ -143,7 +146,7 @@ public final class FrontendHelper {
      * Execute code on a widget to collapse or expand it.
      *
      * @param widgetId id of the widget to collapse.
-     * @param var option to reverse if statement.
+     * @param var      option to reverse if statement.
      */
     private static void widget(String widgetId, String var) {
         StringBuilder sb = new StringBuilder();

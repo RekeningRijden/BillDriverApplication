@@ -40,7 +40,7 @@ public class InvoiceOverviewBean extends Paginator implements Serializable {
     private Properties properties;
 
     public void init() {
-        if (!ContextHelper.isAjaxRequest()) {
+        if (!ContextHelper.isAjaxRequest() && userInfoBean.getLoggedInUser() != null) {
             properties = PropertiesHelper.getProperties(FacesContext.getCurrentInstance());
 
             super.setItemsPerPage(15);

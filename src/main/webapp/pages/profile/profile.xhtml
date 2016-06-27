@@ -11,6 +11,7 @@
         <ui:param name="root" value="#{request.contextPath}"/>
 
         <f:metadata>
+            <f:event type="preRenderView" listener="#{userInfoBean.init()}"/>
             <f:event type="preRenderView" listener="#{profileBean.init()}"/>
             <f:event type="preRenderView" listener="#{invoiceOverviewBean.init()}"/>
         </f:metadata>
@@ -100,7 +101,7 @@
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <h:commandLink class="btn btn-primary pull-right" onclick="$('#newPasswordModal').modal('show')">
-                                                                    Change Password
+                                                                    #{txt.CHANGEPASSWORD}
                                                                     <f:ajax execute="@this" render="@none"/>
                                                                 </h:commandLink>
                                                             </div>
@@ -165,7 +166,7 @@
                                      data-widget-deletebutton="false" data-widget-sortable="false">
                                     <header>
                                         <span class="widget-icon"> <i class="fa fa-table"/> </span>
-                                        <h2>Ownerships</h2>
+                                        <h2>#{txt.OWNERSHIPS}</h2>
 
                                     </header>
                                     <div>
@@ -203,7 +204,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <ui:fragment rendered="#{car.currentOwnership.startDate ne null}">
-                                                                                <strong>Current: </strong><h:outputText value="#{car.currentOwnership.startDate}">
+                                                                                <strong>#{txt.CURRENT}: </strong><h:outputText value="#{car.currentOwnership.startDate}">
                                                                                 <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                                             </h:outputText> - Heden
                                                                                 <br></br>
@@ -211,7 +212,7 @@
 
                                                                             <ui:repeat value="#{car.pastOwnerships}" var="pastOwner">
 .
-                                                                                <strong>Past: </strong><h:outputText value="#{pastOwner.startDate}">
+                                                                                <strong>#{txt.PAST}: </strong><h:outputText value="#{pastOwner.startDate}">
                                                                                     <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                                                 </h:outputText> -
                                                                                 <h:outputText value="#{pastOwner.endDate}">
@@ -252,7 +253,7 @@
                             <a class="close" onclick="$('#newPasswordModal').modal('hide')">
                                 x
                             </a>
-                            <h4>New driver</h4>
+                            <h4>#{txt.CHANGEPASSWORD}</h4>
                         </div>
                         <div class="modal-body">
                             <h:form id="modal-form-1">

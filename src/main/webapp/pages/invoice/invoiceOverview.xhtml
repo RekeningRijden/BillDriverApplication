@@ -6,163 +6,165 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:jsf="http://java.sun.com/jsf">
 
-    <ui:composition template="../../templates/main.xhtml">
+<ui:composition template="../../templates/main.xhtml">
 
-        <f:metadata>
-            <f:event type="preRenderView" listener="#{leftMenuBean.setCurrentMenuItem('invoiceOverview')}"/>
-            <f:event type="preRenderView" listener="#{invoiceOverviewBean.init()}"/>
-        </f:metadata>
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{leftMenuBean.setCurrentMenuItem('invoiceOverview')}"/>
+        <f:event type="preRenderView" listener="#{invoiceOverviewBean.init()}"/>
+    </f:metadata>
 
-        <ui:define name="content">
-            <div id="content">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                        <h1 class="page-title txt-color-blueDark visible-xs visible-sm visible-md visible-lg">
-                            <i class="fa fa-car fa-fw "/>
-                            #{txt.INVOICE} #{txt.OVERVIEW}
-                        </h1>
-                    </div>
+    <ui:define name="content">
+        <div id="content">
+            <div class="row">
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                    <h1 class="page-title txt-color-blueDark visible-xs visible-sm visible-md visible-lg">
+                        <i class="fa fa-car fa-fw "/>
+                        #{txt.INVOICE} #{txt.OVERVIEW}
+                    </h1>
                 </div>
-
-                <section id="widget-grid" class="">
-                    <div class="row">
-                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
-                                 data-widget-fullscreenbutton="false" data-widget-togglebutton="false"
-                                 data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false"
-                                 data-widget-sortable="false">
-                                <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"/> </span>
-                                    <h2>#{txt.INVOICE} #{txt.OVERVIEW}</h2>
-                                </header>
-                                <div>
-                                    <div class="jarviswidget-editbox">
-                                    </div>
-
-                                    <div class="widget-body">
-                                        <h:form id="form">
-                                            <div class="row">
-                                                <div class="col-xs-12">
-                                                    <h:panelGroup id="invoicePanel">
-                                                        <ui:fragment rendered="#{invoiceOverviewBean.invoices.isEmpty()}">
-                                                            <div class="alert alert-warning fade in">
-                                                                <i class="fa fa-warning"/>
-                                                                #{txt.NO_RESULT}
-                                                            </div>
-                                                        </ui:fragment>
-                                                        <ui:fragment rendered="#{!invoiceOverviewBean.invoices.isEmpty()}">
-                                                            <table class="table table-striped table-bordered table-hover table-condensed">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>
-                                                                            #{txt.NUMBER}
-                                                                        </th>
-                                                                        <th>
-                                                                            #{txt.LICENSEPLATE}
-                                                                        </th>
-                                                                        <th>
-                                                                            Status
-                                                                        </th>
-                                                                        <th>
-                                                                            #{txt.MONTH}
-                                                                        </th>
-                                                                        <th>
-                                                                            #{txt.TOTAL} 
-                                                                        </th>
-                                                                        <th></th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <ui:repeat var="item" value="#{invoiceOverviewBean.invoices}">
-                                                                        <tr>
-                                                                            <td>
-                                                                                <h:outputText value="#{item.id}"/>
-                                                                            </td>
-                                                                            <td>
-                                                                                <h:outputText value="#{item.ownership.car.licencePlate}"/>
-                                                                            </td>
-                                                                            <td>
-                                                                                <h:outputText value="#{item.paymentStatus.toString()}"/>
-                                                                            </td>
-                                                                            <td>
-                                                                                <h:outputText value="#{item.period}">
-                                                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
-                                                                                </h:outputText>
-                                                                            </td>
-                                                                            <td>
-                                                                                €
-                                                                                <h:outputText value="#{item.totalAmount}">
-                                                                                    <f:convertNumber minFractionDigits="2"
-                                                                                                     maxFractionDigits="2"/>
-                                                                                </h:outputText>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="element-center">
-                                                                                    <ui:fragment
-                                                                                        rendered="#{item.paymentStatus.toString() eq 'Open'}">
-                                                                                        <h:commandLink class="btn btn-primary btn-xs"
-                                                                                                       action="#{invoiceOverviewBean.setInvoice(item)}"
-                                                                                                       onclick="$('#editInvoiceModal').modal('show')">
-                                                                                            <i class="fa fa-pencil"/>
-                                                                                            <f:ajax execute="@this" render=":modal-form-1"/>
-                                                                                        </h:commandLink>
-                                                                                    </ui:fragment>
-                                                                                    <h:outputLink value="maps.xhtml" class="btn btn-success btn-xs">
-                                                                                        <f:param name="invoiceNr" value="#{item.id}"/>
-                                                                                        <i class="fa fa-map" />
-                                                                                    </h:outputLink>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </ui:repeat>
-                                                                </tbody>
-                                                            </table>
-                                                        </ui:fragment>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup id="invoiceButtonPanel">
-                                                        <div class="btn-group pull-right">
-                                                            <f:ajax execute="invoiceButtonPanel" render="invoicePanel invoiceButtonPanel">
-                                                                <h:commandButton class="btn btn-default btn-sm"  value="&#60;&#60;" action="#{invoiceOverviewBean.firstPage()}"/>
-                                                                <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(1) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}"  value="#{invoiceOverviewBean.getFirstButtonNumber()}" action="#{invoiceOverviewBean.beforePreviousPage()}" disabled="#{invoiceOverviewBean.isButtonDisabled(1)}"/>
-                                                                <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(2) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}"  value="#{invoiceOverviewBean.getSecondButtonNumber()}" action="#{invoiceOverviewBean.previousPage()}" disabled="#{invoiceOverviewBean.isButtonDisabled(2)}"/>
-                                                                <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(3) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}"  value="#{invoiceOverviewBean.getThirdButtonNumber()}" action="#{invoiceOverviewBean.currentPage()}" disabled="#{invoiceOverviewBean.isButtonDisabled(3)}"/>
-                                                                <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(4) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}"  value="#{invoiceOverviewBean.fourthButtonNumber}" action="#{invoiceOverviewBean.nextPage()}" disabled="#{invoiceOverviewBean.isButtonDisabled(4)}"/>
-                                                                <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(5) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}"  value="#{invoiceOverviewBean.fifthButtonNumber}" action="#{invoiceOverviewBean.afterNextPage()}" disabled="#{invoiceOverviewBean.isButtonDisabled(5)}"/>
-                                                                <h:commandButton class="btn btn-default btn-sm"  value="&#62;&#62;" action="#{invoiceOverviewBean.lastPage()}"/>
-                                                            </f:ajax>
-                                                        </div>
-                                                    </h:panelGroup>
-                                                </div>
-                                            </div>
-                                        </h:form>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </section>
             </div>
 
-            <div class="modal fade" data-backdrop="static" id="editInvoiceModal">
-                <div class="modal-dialog">
+            <section id="widget-grid" class="">
+                <div class="row">
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
+                             data-widget-fullscreenbutton="false" data-widget-togglebutton="false"
+                             data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false"
+                             data-widget-sortable="false">
+                            <header>
+                                <span class="widget-icon"> <i class="fa fa-table"/> </span>
+                                <h2>#{txt.INVOICE} #{txt.OVERVIEW}</h2>
+                            </header>
+                            <div>
+                                <div class="jarviswidget-editbox">
+                                </div>
 
-                    <div class="modal-content">
-                        <h:form id="modal-form-1">
-                            <div class="modal-header">
-                                <a class="close" onclick="$('#editInvoiceModal').modal('hide')">
-                                    x
-                                </a>
-                                <h5>Invoice #{invoiceOverviewBean.invoice.id}</h5>
+                                <div class="widget-body">
+                                    <h:form id="form">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <h:panelGroup id="invoicePanel">
+                                                    <ui:fragment rendered="#{invoiceOverviewBean.invoices.isEmpty()}">
+                                                        <div class="alert alert-warning fade in">
+                                                            <i class="fa fa-warning"/>
+                                                            #{txt.NO_RESULT}
+                                                        </div>
+                                                    </ui:fragment>
+                                                    <ui:fragment rendered="#{!invoiceOverviewBean.invoices.isEmpty()}">
+                                                        <table class="table table-striped table-bordered table-hover table-condensed">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    #{txt.NUMBER}
+                                                                </th>
+                                                                <th>
+                                                                    #{txt.LICENSEPLATE}
+                                                                </th>
+                                                                <th>
+                                                                    Status
+                                                                </th>
+                                                                <th>
+                                                                    #{txt.MONTH}
+                                                                </th>
+                                                                <th>
+                                                                    #{txt.TOTAL}
+                                                                </th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <ui:repeat var="item" value="#{invoiceOverviewBean.invoices}">
+                                                                <tr>
+                                                                    <td>
+                                                                        <h:outputText value="#{item.id}"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h:outputText value="#{item.ownership.car.licencePlate}"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h:outputText value="#{item.paymentStatus.toString()}"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h:outputText value="#{item.period}">
+                                                                            <f:convertDateTime pattern="MM-yyyy"/>
+                                                                        </h:outputText>
+                                                                    </td>
+                                                                    <td>
+                                                                        €
+                                                                        <h:outputText value="#{item.totalAmount}">
+                                                                            <f:convertNumber minFractionDigits="2"
+                                                                                             maxFractionDigits="2"/>
+                                                                        </h:outputText>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="element-center">
+                                                                            <div class="btn-group">
+                                                                                <ui:fragment
+                                                                                        rendered="#{item.paymentStatus.toString() eq 'Open'}">
+                                                                                    <h:commandLink class="btn btn-primary btn-xs"
+                                                                                                   action="#{invoiceOverviewBean.setInvoice(item)}"
+                                                                                                   onclick="$('#editInvoiceModal').modal('show')">
+                                                                                        <i class="fa fa-pencil"/>
+                                                                                        <f:ajax execute="@this" render=":modal-form-1"/>
+                                                                                    </h:commandLink>
+                                                                                </ui:fragment>
+                                                                                <h:outputLink value="maps.xhtml" class="btn btn-success btn-xs">
+                                                                                    <f:param name="invoiceNr" value="#{item.id}"/>
+                                                                                    <i class="fa fa-map"/>
+                                                                                </h:outputLink>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </ui:repeat>
+                                                            </tbody>
+                                                        </table>
+                                                    </ui:fragment>
+                                                </h:panelGroup>
+                                                <h:panelGroup id="invoiceButtonPanel">
+                                                    <div class="btn-group pull-right">
+                                                        <f:ajax execute="invoiceButtonPanel" render="invoicePanel invoiceButtonPanel">
+                                                            <h:commandButton class="btn btn-default btn-sm" value="&#60;&#60;" action="#{invoiceOverviewBean.firstPage()}" rendered="#{!invoiceOverviewBean.prevNextButtonDisabled}"/>
+                                                            <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(1) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}" value="#{invoiceOverviewBean.getFirstButtonNumber()}" action="#{invoiceOverviewBean.beforePreviousPage()}" rendered="#{!invoiceOverviewBean.isButtonDisabled(1)}"/>
+                                                            <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(2) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}" value="#{invoiceOverviewBean.getSecondButtonNumber()}" action="#{invoiceOverviewBean.previousPage()}" rendered="#{!invoiceOverviewBean.isButtonDisabled(2)}"/>
+                                                            <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(3) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}" value="#{invoiceOverviewBean.getThirdButtonNumber()}" action="#{invoiceOverviewBean.currentPage()}" rendered="#{!invoiceOverviewBean.isButtonDisabled(3)}"/>
+                                                            <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(4) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}" value="#{invoiceOverviewBean.fourthButtonNumber}" action="#{invoiceOverviewBean.nextPage()}" rendered="#{!invoiceOverviewBean.isButtonDisabled(4)}"/>
+                                                            <h:commandButton class="#{invoiceOverviewBean.isButtonCurrentPage(5) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'}" value="#{invoiceOverviewBean.fifthButtonNumber}" action="#{invoiceOverviewBean.afterNextPage()}" rendered="#{!invoiceOverviewBean.isButtonDisabled(5)}"/>
+                                                            <h:commandButton class="btn btn-default btn-sm" value="&#62;&#62;" action="#{invoiceOverviewBean.lastPage()}" rendered="#{!invoiceOverviewBean.prevNextButtonDisabled}"/>
+                                                        </f:ajax>
+                                                    </div>
+                                                </h:panelGroup>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <h:inputText id="invoiceValue" style="visibility: hidden" value="#{invoiceOverviewBean.invoice.totalAmount}"/>
-                                        <h:inputText id="invoiceId" style="visibility: hidden" value="#{invoiceOverviewBean.invoice.id}"/>
-                                        <h:commandLink id="invoiceBtn" style="visibility: hidden" action="#{successBean.setCanUpdateStatus(true)}">
-                                            <f:ajax render="@none" execute="@this"/>
-                                        </h:commandLink>
-                                    </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+
+        <div class="modal fade" data-backdrop="static" id="editInvoiceModal">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <a class="close" onclick="$('#editInvoiceModal').modal('hide')">
+                            x
+                        </a>
+                        <h5>#{txt.ONE_INVOICE} #{invoiceOverviewBean.invoice.id}</h5>
+                    </div>
+                    <div class="modal-body">
+                        <h:form id="modal-form-1">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h:inputText id="invoiceValue" style="visibility: hidden" value="#{invoiceOverviewBean.invoice.totalAmount}"/>
+                                    <h:inputText id="invoiceId" style="visibility: hidden" value="#{invoiceOverviewBean.invoice.id}"/>
+                                    <h:commandLink id="invoiceBtn" style="visibility: hidden" action="#{successBean.setCanUpdateStatus(true)}">
+                                        <f:ajax render="@none" execute="@this"/>
+                                    </h:commandLink>
                                 </div>
                             </div>
                         </h:form>
@@ -183,10 +185,19 @@
                             <input type="hidden" id="return" name="return" value=""/>
 
                             <!-- Provide a dropdown menu option field. -->
-                            <input type="hidden" name="on0" value="Type"/>Factuur <br />
-                            <select name="os0">
-                                <option value="Factuur">Factuur</option>
-                            </select> <br />
+                            <input type="hidden" name="on0" value="Type"/>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">#{txt.ONE_INVOICE}</label>
+                                        <select name="os0" class="form-control">
+                                            <option value="Factuur">#{txt.ONE_INVOICE}</option>
+                                        </select> <br/>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <!-- Display the payment button. -->
                             <input type="image" name="submit" border="0" onclick="setAmount()"
@@ -194,28 +205,29 @@
                                    alt="PayPal - The safer, easier way to pay online"/>
 
                             <img alt="" border="0" width="1" height="1"
-                                 src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" />
+                                 src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"/>
 
-                            <a class="btn btn-default" onclick="$('#editInvoiceModal').modal('hide');">
-                                Cancel
+                            <a class="btn btn-default" onclick="$('#editInvoiceModal').modal('hide');" style="margin-top: -20px;">
+                                #{txt.CANCEL}
                             </a>
 
                         </form>
                     </div>
                 </div>
             </div>
-            <script type="text/javascript">
-                function get(name) {
-                    return document.getElementById(name);
-                }
+        </div>
+        <script type="text/javascript">
+            function get(name) {
+                return document.getElementById(name);
+            }
 
-                function setAmount() {
-                    document.getElementById("amount").value = document.getElementById("modal-form-1:invoiceValue").value;
-                    document.getElementById("return").value = "http://billdriver.s63a.marijn.ws/BillDriverApplication/pages/invoice/success.xhtml?invoiceId=" + document.getElementById("modal-form-1:invoiceId").value;
-                    document.getElementById("modal-form-1:invoiceBtn").click();
-                }
-            </script>
-        </ui:define>
-    </ui:composition>
+            function setAmount() {
+                document.getElementById("amount").value = document.getElementById("modal-form-1:invoiceValue").value;
+                document.getElementById("return").value = "http://billdriver.s63a.marijn.ws/BillDriverApplication/pages/invoice/success.xhtml?invoiceId=" + document.getElementById("modal-form-1:invoiceId").value;
+                document.getElementById("modal-form-1:invoiceBtn").click();
+            }
+        </script>
+    </ui:define>
+</ui:composition>
 </html>
 
